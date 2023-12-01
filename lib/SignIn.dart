@@ -112,7 +112,7 @@ class _SignInState extends State<SignIn> {
                           icon: Icon(Icons.email),
                         ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 20,
                       ),
                       TextFormField(
@@ -144,8 +144,8 @@ class _SignInState extends State<SignIn> {
                     backgroundColor:
                     MaterialStateProperty.all<Color>(Colors.indigo),
                   ),
-                  child: textButtons("Sign In"),
                   onPressed: _signIn,
+                  child: textButtons("Sign In"),
                 ),
                 const SizedBox(
                   height: 10,

@@ -36,7 +36,7 @@ class _SignUpState extends State<SignUp> {
 
       // Store additional user data in Firestore
       await FirebaseFirestore.instance
-          .collection('drivers')
+          .collection('users_driver')
           .doc(userCredential.user!.uid)
           .set({
         'firstName': _controllerFirstName.text,

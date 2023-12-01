@@ -1,15 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_database/firebase_database.dart';
 
+import 'MyWidgets.dart';
+
 class TripsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     DatabaseReference tripsReference =
-        FirebaseDatabase.instance.ref().child('trips');
+        FirebaseDatabase.instance.ref().child('ToCollege');
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Trips'),
+        backgroundColor: Colors.indigo,
+        leading: iconBack(context),
+        title: textPageTitle("Trips"),
+        centerTitle: true,
       ),
       body: StreamBuilder(
         stream: tripsReference.onValue,
@@ -29,56 +34,97 @@ class TripsPage extends StatelessWidget {
               itemCount: tripList.length,
               itemBuilder: (context, index) {
                 return Card(
-                    child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Column(
-                    children: [
-                      Text("Route: ${tripList[index].value["direction"]}"),
-                      Text("Route: ${tripList[index].value["route"]}"),
-                      Text("Route: ${tripList[index].value["name"]}"),
-                      Text("Route: ${tripList[index].value["car"]}"),
-                      Text("Route: ${tripList[index].value["capacity"]}"),
-                      Text("Route: ${tripList[index].value["fee"]}"),
-                      ElevatedButton(
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Column(children: [
+                      Container(
+                        color: Colors.white70,
+                        child: Column(
+                          children: [
+                            ListTile(
+                              leading: Icon(Icons.directions),
+                              title: Text(
+                                  "Direction: ${tripList[index].value["direction"]}"),
+                              subtitle: Text(
+                                  "Route: ${tripList[index].value["route"]}"),
+                            ),
+                            ListTile(
+                              leading: Icon(Icons.access_time),
+                              title: Text(
+                                  "Time: ${tripList[index].value["time"]}"),
+                              subtitle: Text(
+                                  "Waiting Time: ${tripList[index].value["waiting"]}"),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Container(
+                        color: Colors.white,
+                        child: Column(children: [
+                          ListTile(
+                            leading: Icon(Icons.person),
+                            title:
+                                Text("Name: ${tripList[index].value["name"]}"),
+                            subtitle: Text(
+                                "Phone: ${tripList[index].value["phone"]}"),
+                          ),
+                          ListTile(
+                            leading: Icon(Icons.car_rental),
+                            title:
+                            Text("Car: ${tripList[index].value["car"]}"),
+                            subtitle:  Text(
+                                "Capacity: ${tripList[index].value["capacity"]}"),
+                          ),
+                        ]),
+                      ),
+                      Container(
+                        color: Colors.white70,
+                        child: Column(
+                          children: [
+
+                            ListTile(
+                              leading: Icon(Icons.attach_money),
+                              title:
+                                  Text("Fees: ${tripList[index].value["fee"]}"),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: ElevatedButton(
+                          style: ButtonStyle(
+                            backgroundColor:
+                            MaterialStateProperty.all<Color>(Colors.redAccent),
+                          ),
                           onPressed: () {
                             DatabaseReference tripToDeleteReference =
-                                FirebaseDatabase.instance
-                                    .ref()
-                                    .child('trips')
-                                    .child(tripList[index].key!);
+                            FirebaseDatabase.instance
+                                .ref()
+                                .child('ToCollege')
+                                .child(tripList[index].key!);
                             tripToDeleteReference.remove().then((_) {
                               print("Trip deleted successfully");
                             }).catchError((error) {
                               print("Failed to delete trip: $error");
                             });
                           },
-                          child: Text("Delete"))
-                    ],
+                          child: textButtons("Delete"),
+                        ),
+                      )
+                    ]),
                   ),
-                )
-                    // ListTile(
-                    //   title: Text("Route: ${tripList[index].value["route"]}"),
-                    //   subtitle: Text("Driver: ${tripList[index].value["name"]}"),
-                    //   trailing: IconButton(
-                    //     icon: Icon(Icons.delete),
-                    //     onPressed: () {
-                    //       // Delete the corresponding trip when the button is pressed
-                    //       DatabaseReference tripToDeleteReference =
-                    //       FirebaseDatabase.instance.reference().child('trips').child(tripList[index].key!);
-                    //       tripToDeleteReference.remove().then((_) {
-                    //         print("Trip deleted successfully");
-                    //       }).catchError((error) {
-                    //         print("Failed to delete trip: $error");
-                    //       });
-                    //     },
-                    //   ),
-                    // ),
-                    );
+                );
               },
             );
           } else {
             return Center(
-              child: CircularProgressIndicator(),
+              child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    textLargeTitle("Searching for trips..."),
+                    const CircularProgressIndicator()
+                  ]),
             );
           }
         },

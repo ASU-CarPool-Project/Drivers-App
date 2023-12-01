@@ -1,3 +1,4 @@
+import 'package:asu_carpool_driver/home.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_database/firebase_database.dart';
 
@@ -13,10 +14,11 @@ class _AddRideState extends State<AddRide> {
   RouteDirection? _selectedRouteDirection = RouteDirection.ToCollege;
   final GlobalKey<FormState> _formKey = GlobalKey();
   final TextEditingController _controllerRoute = TextEditingController();
-  final TextEditingController _controllerName = TextEditingController();
   final TextEditingController _controllerCar = TextEditingController();
   final TextEditingController _controllerCapacity = TextEditingController();
   final TextEditingController _controllerFee = TextEditingController();
+  final TextEditingController _controllerTime = TextEditingController();
+  final TextEditingController  _controllerWaitingTime = TextEditingController();
   double boxHeight = 30.0;
 
   @override
@@ -106,23 +108,6 @@ class _AddRideState extends State<AddRide> {
                           decoration: const InputDecoration(
                               filled: true,
                               fillColor: Colors.white70,
-                              hintText: "Driver's Name"),
-                          controller: _controllerName,
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return ("Can't be Empty");
-                            } else {
-                              return null;
-                            }
-                          },
-                        ),
-                        SizedBox(
-                          height: boxHeight,
-                        ),
-                        TextFormField(
-                          decoration: const InputDecoration(
-                              filled: true,
-                              fillColor: Colors.white70,
                               hintText: "Car Model"),
                           controller: _controllerCar,
                           validator: (value) {
@@ -142,6 +127,40 @@ class _AddRideState extends State<AddRide> {
                               fillColor: Colors.white70,
                               hintText: "Car Capacity"),
                           controller: _controllerCapacity,
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return ("Can't be Empty");
+                            } else {
+                              return null;
+                            }
+                          },
+                        ),
+                        SizedBox(
+                          height: boxHeight,
+                        ),
+                        TextFormField(
+                          decoration: const InputDecoration(
+                              filled: true,
+                              fillColor: Colors.white70,
+                              hintText: "Time"),
+                          controller: _controllerTime,
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return ("Can't be Empty");
+                            } else {
+                              return null;
+                            }
+                          },
+                        ),
+                        SizedBox(
+                          height: boxHeight,
+                        ),
+                        TextFormField(
+                          decoration: const InputDecoration(
+                              filled: true,
+                              fillColor: Colors.white70,
+                              hintText: "Waiting Time"),
+                          controller: _controllerWaitingTime,
                           validator: (value) {
                             if (value == null || value.isEmpty) {
                               return ("Can't be Empty");
@@ -181,30 +200,36 @@ class _AddRideState extends State<AddRide> {
                   onPressed: () async {
                     if (_formKey.currentState!.validate()) {
                       try {
+                        //below is the name of the child that we will push to
                         String direction = _selectedRouteDirection.toString().split('.').last;
+
                         DatabaseReference databaseReference =
                         FirebaseDatabase.instance.ref();
                         await databaseReference.child(direction).push().set({
                           "direction": direction,
                           "route": _controllerRoute.text,
-                          "name": _controllerName.text,
+                          "name": username,
+                          "phone": phone,
                           "car": _controllerCar.text,
                           "capacity": _controllerCapacity.text,
+                          "time": _controllerTime.text,
+                          "waiting": _controllerWaitingTime.text,
                           "fee": _controllerFee.text,
                         });
 
                         // Clear text controllers
                         _controllerRoute.clear();
-                        _controllerName.clear();
                         _controllerCar.clear();
                         _controllerCapacity.clear();
                         _controllerFee.clear();
+                        _controllerTime.clear();
+                        _controllerWaitingTime.clear();
                       } catch (e) {
                         print("Error adding trip to Firebase: $e");
                       }
                     }
                   },
-                  child: Text("Add Trip"),
+                  child: const Text("Add Trip"),
                 ),
 
               ],

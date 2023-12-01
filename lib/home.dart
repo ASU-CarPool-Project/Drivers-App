@@ -1,12 +1,14 @@
 import 'package:asu_carpool_driver/TripsPage.dart';
 import 'package:asu_carpool_driver/AddRide.dart';
 import 'package:asu_carpool_driver/profile.dart';
-import 'package:asu_carpool_driver/settings.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-
+import 'MyWidgets.dart';
 import 'about.dart';
+
+String username = "";
+String phone = "";
 
 class home extends StatefulWidget {
   const home({Key? key}) : super(key: key);
@@ -31,11 +33,13 @@ class _homeState extends State<home> {
     User? user = FirebaseAuth.instance.currentUser;
     if (user != null) {
       DocumentSnapshot<Map<String, dynamic>> userData =
-      await FirebaseFirestore.instance.collection('users').doc(user.uid).get();
+      await FirebaseFirestore.instance.collection('users_driver').doc(user.uid).get();
 
       setState(() {
         _user = user;
         _userData = userData.data();
+        username = _userData!['firstName'] +" "+ _userData!['lastName'];
+        phone = _userData!['phone'];
       });
     }
   }
@@ -46,7 +50,8 @@ class _homeState extends State<home> {
     return Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.indigo,
-          title: Text("Home"),
+          leading: iconBack(context),
+          title: textPageTitle("Home"),
           centerTitle: true,
         ),
         endDrawer: Drawer(
@@ -58,11 +63,10 @@ class _homeState extends State<home> {
                 UserAccountsDrawerHeader(
                   accountName: _userData != null
                       ? Text("${_userData!['firstName'] +" "+ _userData!['lastName']}")
-                      : Text("Finn The Manager"),
+                      : const Text("Jake The Dog"),
                   accountEmail: _userData != null
                       ? Text("${_userData!['email']}")
-                      : Text("finn@gstore.com"),
-                  // You can provide an email address here if needed
+                      : const Text("jake@gmail.com"),
                   currentAccountPicture: CircleAvatar(
                     backgroundColor: Colors.grey.shade300,
                     child: const CircleAvatar(
@@ -72,7 +76,7 @@ class _homeState extends State<home> {
                     ),
                   ),
                   decoration: const BoxDecoration(
-                      color: Colors.indigo // Change the background color of the header
+                      color: Colors.indigo
                   ),
                 ),
                 ListTile(
@@ -90,12 +94,12 @@ class _homeState extends State<home> {
                     );
                   },
                 ),
-                Divider(),
+                const Divider(),
                 ListTile(
                   // tileColor: Theme.of(context).colorScheme.secondary,
-                  leading: Icon(Icons.list_alt_rounded,
+                  leading: const Icon(Icons.list_alt_rounded,
                       color: Colors.indigo),
-                  title: Text(
+                  title: const Text(
                     "Your Requests",
                     style: TextStyle(
                         color: Colors.indigo),
@@ -106,28 +110,12 @@ class _homeState extends State<home> {
                     // );
                   },
                 ),
-                Divider(),
+                const Divider(),
                 ListTile(
                   // tileColor: Theme.of(context).colorScheme.secondary,
-                  leading: const Icon(Icons.settings, color: Colors.indigo),
-                  title: Text(
-                    "Settings",
-                    style: TextStyle(
-                        color: Colors.indigo),
-                  ),
-                  onTap: () {
-                    Navigator.of(context).push(
-                      MaterialPageRoute(builder: (context) => settings()),
-                    );
-                  },
-                ),
-
-                Divider(),
-                ListTile(
-                  // tileColor: Theme.of(context).colorScheme.secondary,
-                  leading: Icon(Icons.question_mark,
+                  leading: const Icon(Icons.question_mark,
                       color: Colors.indigo),
-                  title: Text(
+                  title: const Text(
                     "About",
                     style: TextStyle(
                         color: Colors.indigo),
@@ -152,17 +140,25 @@ class _homeState extends State<home> {
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: ElevatedButton(
+                        style: ButtonStyle(
+                          backgroundColor:
+                          MaterialStateProperty.all<Color>(Colors.indigo),
+                        ),
                         onPressed: () {
                           Navigator.push(
                             context,
                             MaterialPageRoute(builder: (context) => AddRide()),
                           );
                         },
-                        child: Text("Add Trip")),
+                        child: textButtons("Add Trip")),
                   ),
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: ElevatedButton(
+                        style: ButtonStyle(
+                          backgroundColor:
+                          MaterialStateProperty.all<Color>(Colors.indigo),
+                        ),
                         onPressed: () {
                           Navigator.push(
                             context,
@@ -170,7 +166,7 @@ class _homeState extends State<home> {
                                 builder: (context) => TripsPage()),
                           );
                         },
-                        child: Text("Show Trips")),
+                        child: textButtons("Show Trips")),
                   ),
                 ],
               ),

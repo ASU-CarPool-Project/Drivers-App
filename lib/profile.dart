@@ -26,7 +26,7 @@ class _profileState extends State<profile> {
     User? user = FirebaseAuth.instance.currentUser;
     if (user != null) {
       DocumentSnapshot<Map<String, dynamic>> userData =
-      await FirebaseFirestore.instance.collection('users').doc(user.uid).get();
+      await FirebaseFirestore.instance.collection('users_driver').doc(user.uid).get();
 
       setState(() {
         _user = user;
