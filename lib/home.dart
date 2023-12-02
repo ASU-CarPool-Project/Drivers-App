@@ -33,12 +33,14 @@ class _homeState extends State<home> {
     User? user = FirebaseAuth.instance.currentUser;
     if (user != null) {
       DocumentSnapshot<Map<String, dynamic>> userData =
-      await FirebaseFirestore.instance.collection('users_driver').doc(user.uid).get();
+      await FirebaseFirestore.instance.collection('users_driver')
+          .doc(user.uid)
+          .get();
 
       setState(() {
         _user = user;
         _userData = userData.data();
-        username = _userData!['firstName'] +" "+ _userData!['lastName'];
+        username = _userData!['firstName'] + " " + _userData!['lastName'];
         phone = _userData!['phone'];
       });
     }
@@ -62,7 +64,8 @@ class _homeState extends State<home> {
               children: [
                 UserAccountsDrawerHeader(
                   accountName: _userData != null
-                      ? Text("${_userData!['firstName'] +" "+ _userData!['lastName']}")
+                      ? Text("${_userData!['firstName'] + " " +
+                      _userData!['lastName']}")
                       : const Text("Jake The Dog"),
                   accountEmail: _userData != null
                       ? Text("${_userData!['email']}")
@@ -97,22 +100,6 @@ class _homeState extends State<home> {
                 const Divider(),
                 ListTile(
                   // tileColor: Theme.of(context).colorScheme.secondary,
-                  leading: const Icon(Icons.list_alt_rounded,
-                      color: Colors.indigo),
-                  title: const Text(
-                    "Your Requests",
-                    style: TextStyle(
-                        color: Colors.indigo),
-                  ),
-                  onTap: () {
-                    // Navigator.of(context).push(
-                    //   MaterialPageRoute(builder: (context) => Requests()),
-                    // );
-                  },
-                ),
-                const Divider(),
-                ListTile(
-                  // tileColor: Theme.of(context).colorScheme.secondary,
                   leading: const Icon(Icons.question_mark,
                       color: Colors.indigo),
                   title: const Text(
@@ -126,49 +113,107 @@ class _homeState extends State<home> {
                     );
                   },
                 ),
+                const Divider(),
+                ListTile(
+                  // tileColor: Theme.of(context).colorScheme.secondary,
+                  leading: const Icon(Icons.list_alt_rounded,
+                      color: Colors.indigo),
+                  title: const Text(
+                    "Sign Out",
+                    style: TextStyle(
+                        color: Colors.indigo),
+                  ),
+                  onTap: () {
+                    // Navigator.of(context).push(
+                    //   MaterialPageRoute(builder: (context) => Requests()),
+                    // );
+                  },
+                ),
+
               ],
             ),
           ),
         ),
         body: Container(
-          color: Colors.white,
-          child: Padding(
-            padding: const EdgeInsets.all(20),
-            child: Center(
-              child: Column(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: ElevatedButton(
-                        style: ButtonStyle(
-                          backgroundColor:
-                          MaterialStateProperty.all<Color>(Colors.indigo),
+          // color: Colors.blue,
+          child: Center(
+            child: Padding(
+              padding: const EdgeInsets.all(5.0),
+              child: SingleChildScrollView(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.all(8.0),
+                      child: InkWell(
+                        child: const ListTile(
+                          tileColor: Colors.indigo,
+                          title: Text(
+                            "Add Trip",
+                            style: TextStyle(color: Colors.white),
+                          ),
+                          trailing: Icon(
+                            Icons.add_circle,
+                            color: Colors.white,
+                          ),
                         ),
-                        onPressed: () {
+                        onTap: () {
                           Navigator.push(
                             context,
-                            MaterialPageRoute(builder: (context) => AddRide()),
+                            MaterialPageRoute(
+                                builder: (context) => AddRide()),
                           );
                         },
-                        child: textButtons("Add Trip")),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: ElevatedButton(
-                        style: ButtonStyle(
-                          backgroundColor:
-                          MaterialStateProperty.all<Color>(Colors.indigo),
+                      ),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.all(8.0),
+                      child: InkWell(
+                        child: const ListTile(
+                          tileColor: Colors.indigo,
+                          title: Text(
+                            "Show Trips",
+                            style: TextStyle(color: Colors.white),
+                          ),
+                          trailing: Icon(
+                            Icons.receipt,
+                            color: Colors.white,
+                          ),
                         ),
-                        onPressed: () {
+                        onTap: () {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
                                 builder: (context) => TripsPage()),
                           );
                         },
-                        child: textButtons("Show Trips")),
-                  ),
-                ],
+                      ),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.all(8.0),
+                      child: InkWell(
+                        child: const ListTile(
+                          tileColor: Colors.indigo,
+                          title: Text(
+                            "Requests",
+                            style: TextStyle(color: Colors.white),
+                          ),
+                          trailing: Icon(
+                            Icons.add_task ,
+                            color: Colors.white,
+                          ),
+                        ),
+                        onTap: () {
+                          // Navigator.push(
+                          //   context,
+                          //   MaterialPageRoute(
+                          //       builder: (context) => AddRide()),
+                          // );
+                        },
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
           ),

@@ -2,6 +2,9 @@ import 'package:asu_carpool_driver/home.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_database/firebase_database.dart';
 
+import 'MyWidgets.dart';
+String? direction = "";
+
 class AddRide extends StatefulWidget {
   const AddRide({Key? key}) : super(key: key);
 
@@ -26,7 +29,8 @@ class _AddRideState extends State<AddRide> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.indigo,
-        title: const Text("Add Rides"),
+        leading: iconBack(context),
+        title: textPageTitle("Add Rides"),
         centerTitle: true,
       ),
       body: Container(
@@ -36,16 +40,6 @@ class _AddRideState extends State<AddRide> {
           child: Center(
             child: ListView(
               children: [
-                const Center(
-                  child: Text(
-                    "Sign up",
-                    style: TextStyle(
-                      fontSize: 34,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.indigo,
-                    ),
-                  ),
-                ),
                 Padding(
                   padding: const EdgeInsets.all(20),
                   child: Form(
@@ -201,11 +195,11 @@ class _AddRideState extends State<AddRide> {
                     if (_formKey.currentState!.validate()) {
                       try {
                         //below is the name of the child that we will push to
-                        String direction = _selectedRouteDirection.toString().split('.').last;
+                        direction = _selectedRouteDirection.toString().split('.').last;
 
                         DatabaseReference databaseReference =
                         FirebaseDatabase.instance.ref();
-                        await databaseReference.child(direction).push().set({
+                        await databaseReference.child(direction!).push().set({
                           "direction": direction,
                           "route": _controllerRoute.text,
                           "name": username,
@@ -229,7 +223,7 @@ class _AddRideState extends State<AddRide> {
                       }
                     }
                   },
-                  child: const Text("Add Trip"),
+                  child: textButtons("Add Trip"),
                 ),
 
               ],

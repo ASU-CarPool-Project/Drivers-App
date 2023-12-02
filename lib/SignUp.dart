@@ -3,6 +3,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'MyWidgets.dart';
+import 'home.dart';
 
 class SignUp extends StatefulWidget {
   const SignUp({Key? key}) : super(key: key);
@@ -58,6 +59,9 @@ class _SignUpState extends State<SignUp> {
 
       // Reset the form after successful signup
       _formKey.currentState!.reset();
+      // If sign-up is successful, navigate to home
+      Navigator.push(context, MaterialPageRoute(builder: (context) => home()),);
+
     } on FirebaseAuthException catch (e) {
       print("Failed to sign up: $e");
       // Handle sign-up errors here
@@ -80,7 +84,7 @@ class _SignUpState extends State<SignUp> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.indigo,
-        title: textPageTitle("ASU Car Pool - Driver"),
+        title: textPageTitle("ASU CAR POOL - Driver"),
         centerTitle: true,
       ),
       body: Container(
