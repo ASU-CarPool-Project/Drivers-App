@@ -15,6 +15,7 @@ class TripsPage extends StatelessWidget {
           title: textPageTitle("Trips"),
           centerTitle: true,
           bottom: const TabBar(
+            indicatorColor: Colors.white,
             tabs: [
               Tab(
                 icon: Column(

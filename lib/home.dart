@@ -5,7 +5,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'MyWidgets.dart';
+import 'SignIn.dart';
 import 'about.dart';
+import 'auth.dart';
 
 String username = "";
 String phone = "";
@@ -124,9 +126,10 @@ class _homeState extends State<home> {
                         color: colorsPrimary),
                   ),
                   onTap: () {
-                    // Navigator.of(context).push(
-                    //   MaterialPageRoute(builder: (context) => Requests()),
-                    // );
+                    signOut();
+                    Navigator.of(context).pushReplacement(
+                      MaterialPageRoute(builder: (context) => SignIn()),
+                    );
                   },
                 ),
 

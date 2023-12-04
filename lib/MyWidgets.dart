@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
 Color? colorsPrimary = Colors.deepOrange[500];
-Color? colorsRoute1 = Colors.deepOrangeAccent;
-Color? colorsRoute2 = Colors.deepOrange[200];
+Color? colorsToCollege = Colors.deepOrangeAccent[100];
+Color? colorsFromCollege = Colors.deepOrangeAccent[100];
 
 
 Widget textButtons(String text) {

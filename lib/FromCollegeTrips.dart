@@ -27,6 +27,7 @@ class FromCollegeTrips extends StatelessWidget {
             itemCount: tripList.length,
             itemBuilder: (context, index) {
               return Card(
+                color: colorsFromCollege,
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Column(children: [
