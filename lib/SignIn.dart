@@ -27,7 +27,7 @@ class _SignInState extends State<SignIn> {
           password: controllerPassword.text);
 
       // If sign-in is successful, navigate to the next screen (Routes)
-      Navigator.push(
+      Navigator.pushReplacement(
         context,
         MaterialPageRoute(builder: (context) => home()),
       );
@@ -67,7 +67,7 @@ class _SignInState extends State<SignIn> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.indigo,
+        backgroundColor: colorsPrimary,
         title: textPageTitle("ASU CAR POOL - Driver"),
         centerTitle: true,
       ),
@@ -137,7 +137,7 @@ class _SignInState extends State<SignIn> {
                 ElevatedButton(
                   style: ButtonStyle(
                     backgroundColor:
-                    MaterialStateProperty.all<Color>(Colors.indigo),
+                    MaterialStateProperty.all<Color>(colorsPrimary!),
                   ),
                   onPressed: _signIn,
                   child: textButtons("Sign In"),

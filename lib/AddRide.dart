@@ -28,7 +28,7 @@ class _AddRideState extends State<AddRide> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.indigo,
+        backgroundColor: colorsPrimary,
         leading: iconBack(context),
         title: textPageTitle("Add Rides"),
         centerTitle: true,
@@ -189,7 +189,7 @@ class _AddRideState extends State<AddRide> {
                 ),
                 ElevatedButton(
                   style: ButtonStyle(
-                    backgroundColor: MaterialStateProperty.all<Color>(Colors.indigo),
+                    backgroundColor: MaterialStateProperty.all<Color>(colorsPrimary!),
                   ),
                   onPressed: () async {
                     if (_formKey.currentState!.validate()) {

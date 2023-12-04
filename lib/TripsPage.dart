@@ -10,7 +10,7 @@ class TripsPage extends StatelessWidget {
       length: 2,
       child: Scaffold(
         appBar: AppBar(
-          backgroundColor: Colors.indigo,
+          backgroundColor: colorsPrimary,
           leading: iconBack(context),
           title: textPageTitle("Trips"),
           centerTitle: true,
@@ -45,7 +45,7 @@ class TripsPage extends StatelessWidget {
                       color: Colors.white,
                     ),
                     Text(
-                      'To Home',
+                      'From Faculty',
                       style: TextStyle(
                         color: Colors.white,
                       ),

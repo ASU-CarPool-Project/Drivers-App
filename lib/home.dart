@@ -51,8 +51,8 @@ class _homeState extends State<home> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          backgroundColor: Colors.indigo,
-          leading: iconBack(context),
+          backgroundColor: colorsPrimary,
+          // leading: iconBack(context),
           title: textPageTitle("Home"),
           centerTitle: true,
         ),
@@ -75,21 +75,21 @@ class _homeState extends State<home> {
                     child: const CircleAvatar(
                       radius: 37,
                       backgroundColor: Colors.white70,
-                      backgroundImage: AssetImage('assets/logos/fin.png'),
+                      backgroundImage: AssetImage('assets/logos/jake.jpg'),
                     ),
                   ),
-                  decoration: const BoxDecoration(
-                      color: Colors.indigo
+                  decoration: BoxDecoration(
+                      color: colorsPrimary
                   ),
                 ),
                 ListTile(
                   // tileColor: Theme.of(context).colorScheme.secondary,
-                  leading: const Icon(Icons.face,
-                      color: Colors.indigo),
-                  title: const Text(
+                  leading: Icon(Icons.face,
+                      color: colorsPrimary),
+                  title: Text(
                     "Profile",
                     style: TextStyle(
-                        color: Colors.indigo),
+                        color: colorsPrimary),
                   ),
                   onTap: () {
                     Navigator.of(context).push(
@@ -100,12 +100,12 @@ class _homeState extends State<home> {
                 const Divider(),
                 ListTile(
                   // tileColor: Theme.of(context).colorScheme.secondary,
-                  leading: const Icon(Icons.question_mark,
-                      color: Colors.indigo),
-                  title: const Text(
+                  leading: Icon(Icons.question_mark,
+                      color: colorsPrimary),
+                  title: Text(
                     "About",
                     style: TextStyle(
-                        color: Colors.indigo),
+                        color: colorsPrimary),
                   ),
                   onTap: () {
                     Navigator.of(context).push(
@@ -116,12 +116,12 @@ class _homeState extends State<home> {
                 const Divider(),
                 ListTile(
                   // tileColor: Theme.of(context).colorScheme.secondary,
-                  leading: const Icon(Icons.list_alt_rounded,
-                      color: Colors.indigo),
-                  title: const Text(
+                  leading: Icon(Icons.list_alt_rounded,
+                      color: colorsPrimary),
+                  title: Text(
                     "Sign Out",
                     style: TextStyle(
-                        color: Colors.indigo),
+                        color: colorsPrimary),
                   ),
                   onTap: () {
                     // Navigator.of(context).push(
@@ -146,8 +146,8 @@ class _homeState extends State<home> {
                     Padding(
                       padding: EdgeInsets.all(8.0),
                       child: InkWell(
-                        child: const ListTile(
-                          tileColor: Colors.indigo,
+                        child: ListTile(
+                          tileColor: colorsPrimary,
                           title: Text(
                             "Add Trip",
                             style: TextStyle(color: Colors.white),
@@ -169,8 +169,8 @@ class _homeState extends State<home> {
                     Padding(
                       padding: EdgeInsets.all(8.0),
                       child: InkWell(
-                        child: const ListTile(
-                          tileColor: Colors.indigo,
+                        child: ListTile(
+                          tileColor: colorsPrimary,
                           title: Text(
                             "Show Trips",
                             style: TextStyle(color: Colors.white),
@@ -192,8 +192,8 @@ class _homeState extends State<home> {
                     Padding(
                       padding: EdgeInsets.all(8.0),
                       child: InkWell(
-                        child: const ListTile(
-                          tileColor: Colors.indigo,
+                        child: ListTile(
+                          tileColor: colorsPrimary,
                           title: Text(
                             "Requests",
                             style: TextStyle(color: Colors.white),

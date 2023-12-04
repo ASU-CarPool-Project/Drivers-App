@@ -67,7 +67,7 @@ class _profileState extends State<profile> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.indigo,
+        backgroundColor: colorsPrimary,
         leading: IconButton(
           icon: const Icon(
             IconData(0xe093,

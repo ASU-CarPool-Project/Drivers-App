@@ -60,7 +60,7 @@ class _SignUpState extends State<SignUp> {
       // Reset the form after successful signup
       _formKey.currentState!.reset();
       // If sign-up is successful, navigate to home
-      Navigator.push(context, MaterialPageRoute(builder: (context) => home()),);
+      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => home()),);
 
     } on FirebaseAuthException catch (e) {
       print("Failed to sign up: $e");
@@ -83,7 +83,7 @@ class _SignUpState extends State<SignUp> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.indigo,
+        backgroundColor: colorsPrimary,
         title: textPageTitle("ASU CAR POOL - Driver"),
         centerTitle: true,
       ),
@@ -94,13 +94,13 @@ class _SignUpState extends State<SignUp> {
           child: Center(
             child: ListView(
               children: [
-                const Center(
+                Center(
                   child: Text(
                     "Sign up",
                     style: TextStyle(
                       fontSize: 34,
                       fontWeight: FontWeight.bold,
-                      color: Colors.indigo,
+                      color: colorsPrimary,
                     ),
                   ),
                 ),
@@ -221,7 +221,7 @@ class _SignUpState extends State<SignUp> {
                 ElevatedButton(
                   style: ButtonStyle(
                     backgroundColor:
-                    MaterialStateProperty.all<Color>(Colors.indigo),
+                    MaterialStateProperty.all<Color>(colorsPrimary!),
                   ),
                   onPressed: _register,
                   child: textButtons("Sign Up"),

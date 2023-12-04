@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
 
+Color? colorsPrimary = Colors.deepOrange[500];
+Color? colorsRoute1 = Colors.deepOrangeAccent;
+Color? colorsRoute2 = Colors.deepOrange[200];
+
+
 Widget textButtons(String text) {
   return Text(
     text,
     style: const TextStyle(
-      fontSize: 18.0,
+      fontSize: 16.0,
       color: Colors.white,
     ),
   );
@@ -19,10 +24,10 @@ Widget textPageTitle(String text) {
 
 Widget textLargeTitle(String text) {
   return Padding(
-    padding: const EdgeInsets.all(8.0),
+    padding: EdgeInsets.all(8.0),
     child: Text(
       text,
-      style: const TextStyle(fontSize: 24, color: Colors.indigo),
+      style: TextStyle(fontSize: 24, color: colorsPrimary),
     ),
   );
 }
