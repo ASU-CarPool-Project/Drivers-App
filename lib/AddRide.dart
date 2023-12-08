@@ -24,7 +24,7 @@ class _AddRideState extends State<AddRide> {
   final TextEditingController _controllerFee = TextEditingController();
   final TextEditingController _controllerTime = TextEditingController();
   TextEditingController dateinput = TextEditingController();
-  DateTime? _selectedDate;
+  // DateTime? _selectedDate;
   TimeOfDay? _selectedTime;
   String? _selectedGate;
   double boxHeight = 30.0;
@@ -91,6 +91,7 @@ class _AddRideState extends State<AddRide> {
                             filled: true,
                             fillColor: Colors.white70,
                             hintText: "Select Gate",
+                            icon: Icon(Icons.door_sliding),
                           ),
                           value: _selectedGate,
                           onChanged: (String? value) {
@@ -137,36 +138,39 @@ class _AddRideState extends State<AddRide> {
                           },
                         ),
                         SizedBox(height: boxHeight),
-                        TextFormField(
+                        TextField(
+                          controller: dateinput,
+                          //editing controller of this TextField
                           decoration: const InputDecoration(
-                            icon: Icon(Icons.car_crash),
-                            filled: true,
-                            fillColor: Colors.white70,
-                            hintText: "Car Model",
+                              icon: Icon(Icons.calendar_today),
+                              //icon of text field
+                              labelText: "Enter Date" //label text of field
                           ),
-                          controller: _controllerCar,
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return ("Can't be Empty");
+                          readOnly: true,
+                          //set it true, so that user will not able to edit text
+                          onTap: () async {
+                            DateTime? pickedDate = await showDatePicker(
+                                context: context,
+                                initialDate: DateTime.now(),
+                                firstDate: DateTime(2000),
+                                //DateTime.now() - not to allow to choose before today.
+                                lastDate: DateTime(2101));
+
+                            if (pickedDate != null) {
+                              print(
+                                  pickedDate); //pickedDate output format => 2021-03-10 00:00:00.000
+                              String formattedDate =
+                              DateFormat('yyyy-MM-dd').format(pickedDate);
+                              print(
+                                  formattedDate); //formatted date output using intl package =>  2021-03-16
+                              //you can implement different kind of Date Format here according to your requirement
+
+                              setState(() {
+                                dateinput.text =
+                                    formattedDate; //set output date to TextField value.
+                              });
                             } else {
-                              return null;
-                            }
-                          },
-                        ),
-                        SizedBox(height: boxHeight),
-                        TextFormField(
-                          decoration: const InputDecoration(
-                            icon: Icon(Icons.event_seat),
-                            filled: true,
-                            fillColor: Colors.white70,
-                            hintText: "Car Capacity",
-                          ),
-                          controller: _controllerCapacity,
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return ("Can't be Empty");
-                            } else {
-                              return null;
+                              print("Date is not selected");
                             }
                           },
                         ),
@@ -201,42 +205,40 @@ class _AddRideState extends State<AddRide> {
                           },
                         ),
                         SizedBox(height: boxHeight),
-                        TextField(
-                          controller: dateinput,
-                          //editing controller of this TextField
+                        TextFormField(
                           decoration: const InputDecoration(
-                              icon: Icon(Icons.calendar_today),
-                              //icon of text field
-                              labelText: "Enter Date" //label text of field
-                              ),
-                          readOnly: true,
-                          //set it true, so that user will not able to edit text
-                          onTap: () async {
-                            DateTime? pickedDate = await showDatePicker(
-                                context: context,
-                                initialDate: DateTime.now(),
-                                firstDate: DateTime(2000),
-                                //DateTime.now() - not to allow to choose before today.
-                                lastDate: DateTime(2101));
-
-                            if (pickedDate != null) {
-                              print(
-                                  pickedDate); //pickedDate output format => 2021-03-10 00:00:00.000
-                              String formattedDate =
-                                  DateFormat('yyyy-MM-dd').format(pickedDate);
-                              print(
-                                  formattedDate); //formatted date output using intl package =>  2021-03-16
-                              //you can implement different kind of Date Format here according to your requirement
-
-                              setState(() {
-                                dateinput.text =
-                                    formattedDate; //set output date to TextField value.
-                              });
+                            icon: Icon(Icons.car_crash),
+                            filled: true,
+                            fillColor: Colors.white70,
+                            hintText: "Car Model",
+                          ),
+                          controller: _controllerCar,
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return ("Can't be Empty");
                             } else {
-                              print("Date is not selected");
+                              return null;
                             }
                           },
                         ),
+                        SizedBox(height: boxHeight),
+                        TextFormField(
+                          decoration: const InputDecoration(
+                            icon: Icon(Icons.event_seat),
+                            filled: true,
+                            fillColor: Colors.white70,
+                            hintText: "Car Capacity",
+                          ),
+                          controller: _controllerCapacity,
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return ("Can't be Empty");
+                            } else {
+                              return null;
+                            }
+                          },
+                        ),
+
                         SizedBox(height: boxHeight),
                         TextFormField(
                           decoration: const InputDecoration(
@@ -280,7 +282,7 @@ class _AddRideState extends State<AddRide> {
                           "car": _controllerCar.text,
                           "capacity": _controllerCapacity.text,
                           "time": _controllerTime.text,
-                          "date": _selectedDate.toString(),
+                          "date": dateinput.text,
                           "gate": _selectedGate,
                           "fee": _controllerFee.text,
                         });

@@ -27,7 +27,7 @@ class FromCollegeTrips extends StatelessWidget {
             itemCount: tripList.length,
             itemBuilder: (context, index) {
               return Card(
-                color: colorsFromCollege,
+                color: colorsToCollege,
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Column(children: [
@@ -38,16 +38,16 @@ class FromCollegeTrips extends StatelessWidget {
                           ListTile(
                             leading: Icon(Icons.directions),
                             title: Text(
-                                "Direction: ${tripList[index].value["direction"]}"),
+                                "${tripList[index].value["direction"]} - ${tripList[index].value["gate"]}"),
                             subtitle: Text(
                                 "Route: ${tripList[index].value["route"]}"),
                           ),
                           ListTile(
                             leading: Icon(Icons.access_time),
                             title:
-                                Text("Time: ${tripList[index].value["time"]}"),
-                            subtitle: Text(
-                                "Waiting Time: ${tripList[index].value["waiting"]}"),
+                            Text("Time: ${tripList[index].value["time"]}"),
+                            subtitle:
+                            Text("Date: ${tripList[index].value["date"]}"),
                           ),
                         ],
                       ),
@@ -56,16 +56,16 @@ class FromCollegeTrips extends StatelessWidget {
                       color: Colors.white,
                       child: Column(children: [
                         ListTile(
-                          leading: Icon(Icons.person),
-                          title: Text("Name: ${tripList[index].value["name"]}"),
-                          subtitle:
-                              Text("Phone: ${tripList[index].value["phone"]}"),
-                        ),
-                        ListTile(
                           leading: Icon(Icons.car_rental),
                           title: Text("Car: ${tripList[index].value["car"]}"),
                           subtitle: Text(
                               "Capacity: ${tripList[index].value["capacity"]}"),
+                        ),
+                        ListTile(
+                          leading: Icon(Icons.person),
+                          title: Text("Name: ${tripList[index].value["name"]}"),
+                          subtitle:
+                          Text("Phone: ${tripList[index].value["phone"]}"),
                         ),
                       ]),
                     ),
@@ -76,7 +76,7 @@ class FromCollegeTrips extends StatelessWidget {
                           ListTile(
                             leading: Icon(Icons.attach_money),
                             title:
-                                Text("Fees: ${tripList[index].value["fee"]}"),
+                            Text("Fees: ${tripList[index].value["fee"]}"),
                           ),
                         ],
                       ),
@@ -90,10 +90,10 @@ class FromCollegeTrips extends StatelessWidget {
                         ),
                         onPressed: () {
                           DatabaseReference tripToDeleteReference =
-                              FirebaseDatabase.instance
-                                  .ref()
-                                  .child('FromCollege')
-                                  .child(tripList[index].key!);
+                          FirebaseDatabase.instance
+                              .ref()
+                              .child('FromCollege')
+                              .child(tripList[index].key!);
                           tripToDeleteReference.remove().then((_) {
                             print("Trip deleted successfully");
                           }).catchError((error) {

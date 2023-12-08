@@ -38,7 +38,7 @@ class ToCollegeTrips extends StatelessWidget {
                           ListTile(
                             leading: Icon(Icons.directions),
                             title: Text(
-                                "Direction: ${tripList[index].value["direction"]}"),
+                                "${tripList[index].value["direction"]} - ${tripList[index].value["gate"]}"),
                             subtitle: Text(
                                 "Route: ${tripList[index].value["route"]}"),
                           ),
@@ -46,8 +46,8 @@ class ToCollegeTrips extends StatelessWidget {
                             leading: Icon(Icons.access_time),
                             title:
                                 Text("Time: ${tripList[index].value["time"]}"),
-                            subtitle: Text(
-                                "Waiting Time: ${tripList[index].value["waiting"]}"),
+                            subtitle:
+                                Text("Date: ${tripList[index].value["date"]}"),
                           ),
                         ],
                       ),
@@ -56,16 +56,16 @@ class ToCollegeTrips extends StatelessWidget {
                       color: Colors.white,
                       child: Column(children: [
                         ListTile(
-                          leading: Icon(Icons.person),
-                          title: Text("Name: ${tripList[index].value["name"]}"),
-                          subtitle:
-                              Text("Phone: ${tripList[index].value["phone"]}"),
-                        ),
-                        ListTile(
                           leading: Icon(Icons.car_rental),
                           title: Text("Car: ${tripList[index].value["car"]}"),
                           subtitle: Text(
                               "Capacity: ${tripList[index].value["capacity"]}"),
+                        ),
+                        ListTile(
+                          leading: Icon(Icons.person),
+                          title: Text("Name: ${tripList[index].value["name"]}"),
+                          subtitle:
+                              Text("Phone: ${tripList[index].value["phone"]}"),
                         ),
                       ]),
                     ),
