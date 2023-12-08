@@ -20,11 +20,12 @@ class _SignUpState extends State<SignUp> {
   final TextEditingController _controllerPhone = TextEditingController();
   final TextEditingController _controllerPassword = TextEditingController();
   final TextEditingController _controllerConfirmPassword =
-  TextEditingController();
+      TextEditingController();
+  bool _isObscure = true;
 
   double boxHeight = 30.0;
   static final RegExp _emailRegExp =
-  RegExp(r"^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$");
+      RegExp(r"^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$");
 
   /////////////////////////////////////////////////////////////////////////////
 
@@ -32,8 +33,8 @@ class _SignUpState extends State<SignUp> {
     try {
       UserCredential userCredential = await FirebaseAuth.instance
           .createUserWithEmailAndPassword(
-          email: _controllerEmail.text.trim(),
-          password: _controllerPassword.text);
+              email: _controllerEmail.text.trim(),
+              password: _controllerPassword.text);
 
       // Store additional user data in Firestore
       await FirebaseFirestore.instance
@@ -46,7 +47,8 @@ class _SignUpState extends State<SignUp> {
         'phone': _controllerPhone.text,
       });
 
-      print("User signed up successfully with UID: ${userCredential.user!.uid}");
+      print(
+          "User signed up successfully with UID: ${userCredential.user!.uid}");
       Fluttertoast.showToast(
         msg: "Sign In Successful!",
         toastLength: Toast.LENGTH_SHORT,
@@ -60,8 +62,10 @@ class _SignUpState extends State<SignUp> {
       // Reset the form after successful signup
       _formKey.currentState!.reset();
       // If sign-up is successful, navigate to home
-      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => home()),);
-
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => home()),
+      );
     } on FirebaseAuthException catch (e) {
       print("Failed to sign up: $e");
       // Handle sign-up errors here
@@ -113,9 +117,11 @@ class _SignUpState extends State<SignUp> {
                         children: [
                           TextFormField(
                             decoration: const InputDecoration(
-                                filled: true,
-                                fillColor: Colors.white70,
-                                hintText: "First Name"),
+                              filled: true,
+                              fillColor: Colors.white70,
+                              hintText: "First Name",
+                              icon: Icon(Icons.face_2),
+                            ),
                             controller: _controllerFirstName,
                             validator: (value) {
                               if (value == null || value.isEmpty) {
@@ -130,9 +136,11 @@ class _SignUpState extends State<SignUp> {
                           ),
                           TextFormField(
                             decoration: const InputDecoration(
-                                filled: true,
-                                fillColor: Colors.white70,
-                                hintText: "Last Name"),
+                              filled: true,
+                              fillColor: Colors.white70,
+                              hintText: "Last Name",
+                              icon: Icon(Icons.face),
+                            ),
                             controller: _controllerLastName,
                             validator: (value) {
                               if (value == null || value.isEmpty) {
@@ -147,9 +155,11 @@ class _SignUpState extends State<SignUp> {
                           ),
                           TextFormField(
                             decoration: const InputDecoration(
-                                filled: true,
-                                fillColor: Colors.white70,
-                                hintText: "Phone Number"),
+                              filled: true,
+                              fillColor: Colors.white70,
+                              hintText: "Phone Number",
+                              icon: Icon(Icons.phone),
+                            ),
                             controller: _controllerPhone,
                             validator: (value) {
                               if (value == null || value.isEmpty) {
@@ -166,7 +176,8 @@ class _SignUpState extends State<SignUp> {
                             decoration: const InputDecoration(
                                 filled: true,
                                 fillColor: Colors.white70,
-                                hintText: "Email Address"),
+                                hintText: "Email Address",
+                                icon: Icon(Icons.email)),
                             controller: _controllerEmail,
                             validator: (value) {
                               if (value == null || value.isEmpty) {
@@ -182,10 +193,25 @@ class _SignUpState extends State<SignUp> {
                             height: boxHeight,
                           ),
                           TextFormField(
-                            decoration: const InputDecoration(
-                                filled: true,
-                                fillColor: Colors.white70,
-                                hintText: "Password"),
+                            obscureText: _isObscure,
+                            decoration: InputDecoration(
+                              filled: true,
+                              fillColor: Colors.white70,
+                              hintText: "Password",
+                              icon: Icon(Icons.lock_outline_rounded),
+                              suffixIcon: IconButton(
+                                icon: Icon(
+                                  _isObscure
+                                      ? Icons.visibility
+                                      : Icons.visibility_off,
+                                ),
+                                onPressed: () {
+                                  setState(() {
+                                    _isObscure = !_isObscure;
+                                  });
+                                },
+                              ),
+                            ),
                             controller: _controllerPassword,
                             validator: (value) {
                               if (value == null || value.isEmpty) {
@@ -201,15 +227,31 @@ class _SignUpState extends State<SignUp> {
                             height: boxHeight,
                           ),
                           TextFormField(
-                            decoration: const InputDecoration(
-                                filled: true,
-                                fillColor: Colors.white70,
-                                hintText: "Confirm Password"),
+                            obscureText: _isObscure,
+                            decoration: InputDecoration(
+                              filled: true,
+                              fillColor: Colors.white70,
+                              hintText: "Confirm Password",
+                              icon: Icon(Icons.lock_outline_rounded),
+                              suffixIcon: IconButton(
+                                icon: Icon(
+                                  _isObscure
+                                      ? Icons.visibility
+                                      : Icons.visibility_off,
+                                ),
+                                onPressed: () {
+                                  setState(() {
+                                    _isObscure = !_isObscure;
+                                  });
+                                },
+                              ),
+                            ),
                             controller: _controllerConfirmPassword,
                             validator: (value) {
                               if (value == null || value.isEmpty) {
                                 return ("Re-enter Password");
-                              } else if (_controllerConfirmPassword.text != _controllerPassword.text) {
+                              } else if (_controllerConfirmPassword.text !=
+                                  _controllerPassword.text) {
                                 return "Passwords doesn't match";
                               } else {
                                 return null;
@@ -222,7 +264,7 @@ class _SignUpState extends State<SignUp> {
                 ElevatedButton(
                   style: ButtonStyle(
                     backgroundColor:
-                    MaterialStateProperty.all<Color>(colorsPrimary!),
+                        MaterialStateProperty.all<Color>(colorsPrimary!),
                   ),
                   onPressed: _register,
                   child: textButtons("Sign Up"),

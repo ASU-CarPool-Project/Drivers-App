@@ -16,6 +16,7 @@ class _SignInState extends State<SignIn> {
   GlobalKey<FormState> formKey = GlobalKey();
   TextEditingController controllerEmail = TextEditingController();
   TextEditingController controllerPassword = TextEditingController();
+  bool _isObscure = true;
 
   /////////////////////////////////////////////////////////////////////////////
 
@@ -111,7 +112,7 @@ class _SignInState extends State<SignIn> {
                         height: 20,
                       ),
                       TextFormField(
-                        obscureText: true,
+                        obscureText: _isObscure, // _isObscure is a boolean variable to toggle visibility
                         controller: controllerPassword,
                         validator: (value) {
                           if (value == null || value.isEmpty) {
@@ -120,14 +121,25 @@ class _SignInState extends State<SignIn> {
                             return null;
                           }
                         },
-                        decoration: const InputDecoration(
+                        decoration: InputDecoration(
                           filled: true,
                           fillColor: Colors.white70,
                           border: OutlineInputBorder(),
                           hintText: 'Password',
                           icon: Icon(Icons.lock_outline_rounded),
+                          suffixIcon: IconButton(
+                            icon: Icon(
+                              _isObscure ? Icons.visibility : Icons.visibility_off,
+                            ),
+                            onPressed: () {
+                              setState(() {
+                                _isObscure = !_isObscure;
+                              });
+                            },
+                          ),
                         ),
                       ),
+
                       const SizedBox(
                         height: 30,
                       ),
