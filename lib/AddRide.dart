@@ -1,8 +1,9 @@
-import 'package:asu_carpool_driver/home.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_database/firebase_database.dart';
-
+import 'package:intl/intl.dart';
 import 'MyWidgets.dart';
+import 'home.dart';
+
 String? direction = "";
 
 class AddRide extends StatefulWidget {
@@ -11,6 +12,7 @@ class AddRide extends StatefulWidget {
   @override
   State<AddRide> createState() => _AddRideState();
 }
+
 enum RouteDirection { ToCollege, FromCollege }
 
 class _AddRideState extends State<AddRide> {
@@ -21,7 +23,10 @@ class _AddRideState extends State<AddRide> {
   final TextEditingController _controllerCapacity = TextEditingController();
   final TextEditingController _controllerFee = TextEditingController();
   final TextEditingController _controllerTime = TextEditingController();
-  final TextEditingController  _controllerWaitingTime = TextEditingController();
+  TextEditingController dateinput = TextEditingController();
+  DateTime? _selectedDate;
+  TimeOfDay? _selectedTime;
+  String? _selectedGate;
   double boxHeight = 30.0;
 
   @override
@@ -47,7 +52,7 @@ class _AddRideState extends State<AddRide> {
                     child: Column(
                       children: [
                         Container(
-                          color: Colors.white,
+                          color: Colors.white70,
                           child: Column(
                             children: [
                               const Padding(
@@ -81,11 +86,47 @@ class _AddRideState extends State<AddRide> {
                             ],
                           ),
                         ),
+                        DropdownButtonFormField<String>(
+                          decoration: const InputDecoration(
+                            filled: true,
+                            fillColor: Colors.white70,
+                            hintText: "Select Gate",
+                          ),
+                          value: _selectedGate,
+                          onChanged: (String? value) {
+                            setState(() {
+                              _selectedGate = value;
+                            });
+                          },
+                          items: [
+                            'Gate 1',
+                            'Gate 2',
+                            'Gate 3',
+                            'Gate 4',
+                            'Gate 5',
+                            'Gate 6',
+                          ].map<DropdownMenuItem<String>>((String value) {
+                            return DropdownMenuItem<String>(
+                              value: value,
+                              child: Text(value),
+                            );
+                          }).toList(),
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return ("Please select a gate");
+                            } else {
+                              return null;
+                            }
+                          },
+                        ),
+                        SizedBox(height: boxHeight),
                         TextFormField(
                           decoration: const InputDecoration(
-                              filled: true,
-                              fillColor: Colors.white70,
-                              hintText: "Route Description"),
+                            icon: Icon(Icons.location_city),
+                            filled: true,
+                            fillColor: Colors.white70,
+                            hintText: "Location... ex: Maadi, Rehab",
+                          ),
                           controller: _controllerRoute,
                           validator: (value) {
                             if (value == null || value.isEmpty) {
@@ -95,14 +136,14 @@ class _AddRideState extends State<AddRide> {
                             }
                           },
                         ),
-                        SizedBox(
-                          height: boxHeight,
-                        ),
+                        SizedBox(height: boxHeight),
                         TextFormField(
                           decoration: const InputDecoration(
-                              filled: true,
-                              fillColor: Colors.white70,
-                              hintText: "Car Model"),
+                            icon: Icon(Icons.car_crash),
+                            filled: true,
+                            fillColor: Colors.white70,
+                            hintText: "Car Model",
+                          ),
                           controller: _controllerCar,
                           validator: (value) {
                             if (value == null || value.isEmpty) {
@@ -112,14 +153,14 @@ class _AddRideState extends State<AddRide> {
                             }
                           },
                         ),
-                        SizedBox(
-                          height: boxHeight,
-                        ),
+                        SizedBox(height: boxHeight),
                         TextFormField(
                           decoration: const InputDecoration(
-                              filled: true,
-                              fillColor: Colors.white70,
-                              hintText: "Car Capacity"),
+                            icon: Icon(Icons.event_seat),
+                            filled: true,
+                            fillColor: Colors.white70,
+                            hintText: "Car Capacity",
+                          ),
                           controller: _controllerCapacity,
                           validator: (value) {
                             if (value == null || value.isEmpty) {
@@ -129,15 +170,28 @@ class _AddRideState extends State<AddRide> {
                             }
                           },
                         ),
-                        SizedBox(
-                          height: boxHeight,
-                        ),
+                        SizedBox(height: boxHeight),
                         TextFormField(
-                          decoration: const InputDecoration(
-                              filled: true,
-                              fillColor: Colors.white70,
-                              hintText: "Time"),
                           controller: _controllerTime,
+                          decoration: const InputDecoration(
+                            icon: Icon(Icons.alarm),
+                            filled: true,
+                            fillColor: Colors.white70,
+                            hintText: "Time",
+                          ),
+                          onTap: () async {
+                            final TimeOfDay? pickedTime = await showTimePicker(
+                              context: context,
+                              initialTime: TimeOfDay.now(),
+                            );
+                            if (pickedTime != null) {
+                              setState(() {
+                                _selectedTime = pickedTime;
+                                _controllerTime.text =
+                                    _selectedTime!.format(context);
+                              });
+                            }
+                          },
                           validator: (value) {
                             if (value == null || value.isEmpty) {
                               return ("Can't be Empty");
@@ -146,31 +200,51 @@ class _AddRideState extends State<AddRide> {
                             }
                           },
                         ),
-                        SizedBox(
-                          height: boxHeight,
-                        ),
-                        TextFormField(
+                        SizedBox(height: boxHeight),
+                        TextField(
+                          controller: dateinput,
+                          //editing controller of this TextField
                           decoration: const InputDecoration(
-                              filled: true,
-                              fillColor: Colors.white70,
-                              hintText: "Waiting Time"),
-                          controller: _controllerWaitingTime,
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return ("Can't be Empty");
+                              icon: Icon(Icons.calendar_today),
+                              //icon of text field
+                              labelText: "Enter Date" //label text of field
+                              ),
+                          readOnly: true,
+                          //set it true, so that user will not able to edit text
+                          onTap: () async {
+                            DateTime? pickedDate = await showDatePicker(
+                                context: context,
+                                initialDate: DateTime.now(),
+                                firstDate: DateTime(2000),
+                                //DateTime.now() - not to allow to choose before today.
+                                lastDate: DateTime(2101));
+
+                            if (pickedDate != null) {
+                              print(
+                                  pickedDate); //pickedDate output format => 2021-03-10 00:00:00.000
+                              String formattedDate =
+                                  DateFormat('yyyy-MM-dd').format(pickedDate);
+                              print(
+                                  formattedDate); //formatted date output using intl package =>  2021-03-16
+                              //you can implement different kind of Date Format here according to your requirement
+
+                              setState(() {
+                                dateinput.text =
+                                    formattedDate; //set output date to TextField value.
+                              });
                             } else {
-                              return null;
+                              print("Date is not selected");
                             }
                           },
                         ),
-                        SizedBox(
-                          height: boxHeight,
-                        ),
+                        SizedBox(height: boxHeight),
                         TextFormField(
                           decoration: const InputDecoration(
-                              filled: true,
-                              fillColor: Colors.white70,
-                              hintText: "Trip Fee"),
+                            icon: Icon(Icons.currency_pound),
+                            filled: true,
+                            fillColor: Colors.white70,
+                            hintText: "Trip Fee",
+                          ),
                           controller: _controllerFee,
                           validator: (value) {
                             if (value == null || value.isEmpty) {
@@ -180,25 +254,24 @@ class _AddRideState extends State<AddRide> {
                             }
                           },
                         ),
-                        SizedBox(
-                          height: boxHeight,
-                        ),
+                        SizedBox(height: boxHeight),
                       ],
                     ),
                   ),
                 ),
                 ElevatedButton(
                   style: ButtonStyle(
-                    backgroundColor: MaterialStateProperty.all<Color>(colorsPrimary!),
+                    backgroundColor:
+                        MaterialStateProperty.all<Color>(colorsPrimary!),
                   ),
                   onPressed: () async {
                     if (_formKey.currentState!.validate()) {
                       try {
-                        //below is the name of the child that we will push to
-                        direction = _selectedRouteDirection.toString().split('.').last;
+                        direction =
+                            _selectedRouteDirection.toString().split('.').last;
 
                         DatabaseReference databaseReference =
-                        FirebaseDatabase.instance.ref();
+                            FirebaseDatabase.instance.ref();
                         await databaseReference.child(direction!).push().set({
                           "direction": direction,
                           "route": _controllerRoute.text,
@@ -207,17 +280,16 @@ class _AddRideState extends State<AddRide> {
                           "car": _controllerCar.text,
                           "capacity": _controllerCapacity.text,
                           "time": _controllerTime.text,
-                          "waiting": _controllerWaitingTime.text,
+                          "date": _selectedDate.toString(),
+                          "gate": _selectedGate,
                           "fee": _controllerFee.text,
                         });
 
-                        // Clear text controllers
                         _controllerRoute.clear();
                         _controllerCar.clear();
                         _controllerCapacity.clear();
                         _controllerFee.clear();
                         _controllerTime.clear();
-                        _controllerWaitingTime.clear();
                       } catch (e) {
                         print("Error adding trip to Firebase: $e");
                       }
@@ -225,7 +297,6 @@ class _AddRideState extends State<AddRide> {
                   },
                   child: textButtons("Add Trip"),
                 ),
-
               ],
             ),
           ),

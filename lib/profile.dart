@@ -68,16 +68,7 @@ class _profileState extends State<profile> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: colorsPrimary,
-        leading: IconButton(
-          icon: const Icon(
-            IconData(0xe093,
-                fontFamily: 'MaterialIcons', matchTextDirection: true),
-            color: Colors.white,
-          ),
-          onPressed: () {
-            Navigator.of(context).pop();
-          },
-        ),
+        leading: iconBack(context),
         title: textPageTitle("Profile"),
         centerTitle: true,
       ),

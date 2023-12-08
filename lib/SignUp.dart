@@ -84,6 +84,7 @@ class _SignUpState extends State<SignUp> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: colorsPrimary,
+        leading: iconBack(context),
         title: textPageTitle("ASU CAR POOL - Driver"),
         centerTitle: true,
       ),
