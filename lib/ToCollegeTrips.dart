@@ -10,7 +10,7 @@ class ToCollegeTrips extends StatelessWidget {
         FirebaseDatabase.instance.ref().child("ToCollege");
 
     return StreamBuilder(
-      stream: tripsReference.orderByChild("name").equalTo("$username").onValue,
+      stream: tripsReference.orderByChild("driverID").equalTo("$userID").onValue,
       builder: (context, AsyncSnapshot<DatabaseEvent> snapshot) {
         if (snapshot.hasData &&
             !snapshot.hasError &&

@@ -10,17 +10,13 @@ class FromCollegeTrips extends StatelessWidget {
         FirebaseDatabase.instance.ref().child("FromCollege");
 
     return StreamBuilder(
-      stream: tripsReference.orderByChild("name").equalTo("$username").onValue,
+      stream: tripsReference.orderByChild("driverID").equalTo("$userID").onValue,
       builder: (context, AsyncSnapshot<DatabaseEvent> snapshot) {
         if (snapshot.hasData &&
             !snapshot.hasError &&
             snapshot.data!.snapshot.value != null) {
           Map<dynamic, dynamic>? trips =
               snapshot.data!.snapshot.value as Map<dynamic, dynamic>?;
-
-          // List<MapEntry<String, dynamic>> tripList = trips?.entries.map<MapEntry<String, dynamic>>((entry) {
-          //   return MapEntry<String, dynamic>(entry.key.toString(), entry.value);
-          // }).toList() ?? [];
           List<MapEntry> tripList = trips?.entries.toList() ?? [];
 
           return ListView.builder(
@@ -45,9 +41,9 @@ class FromCollegeTrips extends StatelessWidget {
                           ListTile(
                             leading: Icon(Icons.access_time),
                             title:
-                            Text("Time: ${tripList[index].value["time"]}"),
+                                Text("Time: ${tripList[index].value["time"]}"),
                             subtitle:
-                            Text("Date: ${tripList[index].value["date"]}"),
+                                Text("Date: ${tripList[index].value["date"]}"),
                           ),
                         ],
                       ),
@@ -65,7 +61,7 @@ class FromCollegeTrips extends StatelessWidget {
                           leading: Icon(Icons.person),
                           title: Text("Name: ${tripList[index].value["name"]}"),
                           subtitle:
-                          Text("Phone: ${tripList[index].value["phone"]}"),
+                              Text("Phone: ${tripList[index].value["phone"]}"),
                         ),
                       ]),
                     ),
@@ -76,7 +72,7 @@ class FromCollegeTrips extends StatelessWidget {
                           ListTile(
                             leading: Icon(Icons.attach_money),
                             title:
-                            Text("Fees: ${tripList[index].value["fee"]}"),
+                                Text("Fees: ${tripList[index].value["fee"]}"),
                           ),
                         ],
                       ),
@@ -90,10 +86,10 @@ class FromCollegeTrips extends StatelessWidget {
                         ),
                         onPressed: () {
                           DatabaseReference tripToDeleteReference =
-                          FirebaseDatabase.instance
-                              .ref()
-                              .child('FromCollege')
-                              .child(tripList[index].key!);
+                              FirebaseDatabase.instance
+                                  .ref()
+                                  .child('FromCollege')
+                                  .child(tripList[index].key!);
                           tripToDeleteReference.remove().then((_) {
                             print("Trip deleted successfully");
                           }).catchError((error) {

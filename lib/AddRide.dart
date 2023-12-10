@@ -24,6 +24,7 @@ class _AddRideState extends State<AddRide> {
   final TextEditingController _controllerFee = TextEditingController();
   final TextEditingController _controllerTime = TextEditingController();
   TextEditingController dateinput = TextEditingController();
+
   // DateTime? _selectedDate;
   TimeOfDay? _selectedTime;
   String? _selectedGate;
@@ -145,7 +146,7 @@ class _AddRideState extends State<AddRide> {
                               icon: Icon(Icons.calendar_today),
                               //icon of text field
                               labelText: "Enter Date" //label text of field
-                          ),
+                              ),
                           readOnly: true,
                           //set it true, so that user will not able to edit text
                           onTap: () async {
@@ -160,7 +161,7 @@ class _AddRideState extends State<AddRide> {
                               print(
                                   pickedDate); //pickedDate output format => 2021-03-10 00:00:00.000
                               String formattedDate =
-                              DateFormat('yyyy-MM-dd').format(pickedDate);
+                                  DateFormat('yyyy-MM-dd').format(pickedDate);
                               print(
                                   formattedDate); //formatted date output using intl package =>  2021-03-16
                               //you can implement different kind of Date Format here according to your requirement
@@ -238,7 +239,6 @@ class _AddRideState extends State<AddRide> {
                             }
                           },
                         ),
-
                         SizedBox(height: boxHeight),
                         TextFormField(
                           decoration: const InputDecoration(
@@ -275,6 +275,7 @@ class _AddRideState extends State<AddRide> {
                         DatabaseReference databaseReference =
                             FirebaseDatabase.instance.ref();
                         await databaseReference.child(direction!).push().set({
+                          "driverID": userID,
                           "direction": direction,
                           "route": _controllerRoute.text,
                           "name": username,

@@ -1,6 +1,7 @@
 import 'package:asu_carpool_driver/TripsPage.dart';
 import 'package:asu_carpool_driver/AddRide.dart';
 import 'package:asu_carpool_driver/profile.dart';
+import 'package:asu_carpool_driver/requests.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -11,6 +12,7 @@ import 'auth.dart';
 
 String username = "";
 String phone = "";
+String userID = "";
 
 class home extends StatefulWidget {
   const home({Key? key}) : super(key: key);
@@ -34,8 +36,9 @@ class _homeState extends State<home> {
   Future<void> _getUserInfo() async {
     User? user = FirebaseAuth.instance.currentUser;
     if (user != null) {
-      DocumentSnapshot<Map<String, dynamic>> userData =
-      await FirebaseFirestore.instance.collection('users_driver')
+      DocumentSnapshot<Map<String, dynamic>> userData = await FirebaseFirestore
+          .instance
+          .collection('users_driver')
           .doc(user.uid)
           .get();
 
@@ -44,6 +47,7 @@ class _homeState extends State<home> {
         _userData = userData.data();
         username = _userData!['firstName'] + " " + _userData!['lastName'];
         phone = _userData!['phone'];
+        userID = user.uid;
       });
     }
   }
@@ -66,8 +70,8 @@ class _homeState extends State<home> {
               children: [
                 UserAccountsDrawerHeader(
                   accountName: _userData != null
-                      ? Text("${_userData!['firstName'] + " " +
-                      _userData!['lastName']}")
+                      ? Text(
+                          "${_userData!['firstName'] + " " + _userData!['lastName']}")
                       : const Text("Jake The Dog"),
                   accountEmail: _userData != null
                       ? Text("${_userData!['email']}")
@@ -80,18 +84,14 @@ class _homeState extends State<home> {
                       backgroundImage: AssetImage('assets/logos/jake.jpg'),
                     ),
                   ),
-                  decoration: BoxDecoration(
-                      color: colorsPrimary
-                  ),
+                  decoration: BoxDecoration(color: colorsPrimary),
                 ),
                 ListTile(
                   // tileColor: Theme.of(context).colorScheme.secondary,
-                  leading: Icon(Icons.face,
-                      color: colorsPrimary),
+                  leading: Icon(Icons.face, color: colorsPrimary),
                   title: Text(
                     "Profile",
-                    style: TextStyle(
-                        color: colorsPrimary),
+                    style: TextStyle(color: colorsPrimary),
                   ),
                   onTap: () {
                     Navigator.of(context).push(
@@ -102,12 +102,10 @@ class _homeState extends State<home> {
                 const Divider(),
                 ListTile(
                   // tileColor: Theme.of(context).colorScheme.secondary,
-                  leading: Icon(Icons.question_mark,
-                      color: colorsPrimary),
+                  leading: Icon(Icons.question_mark, color: colorsPrimary),
                   title: Text(
                     "About",
-                    style: TextStyle(
-                        color: colorsPrimary),
+                    style: TextStyle(color: colorsPrimary),
                   ),
                   onTap: () {
                     Navigator.of(context).push(
@@ -118,12 +116,10 @@ class _homeState extends State<home> {
                 const Divider(),
                 ListTile(
                   // tileColor: Theme.of(context).colorScheme.secondary,
-                  leading: Icon(Icons.list_alt_rounded,
-                      color: colorsPrimary),
+                  leading: Icon(Icons.list_alt_rounded, color: colorsPrimary),
                   title: Text(
                     "Sign Out",
-                    style: TextStyle(
-                        color: colorsPrimary),
+                    style: TextStyle(color: colorsPrimary),
                   ),
                   onTap: () {
                     signOut();
@@ -132,7 +128,6 @@ class _homeState extends State<home> {
                     );
                   },
                 ),
-
               ],
             ),
           ),
@@ -163,8 +158,7 @@ class _homeState extends State<home> {
                         onTap: () {
                           Navigator.push(
                             context,
-                            MaterialPageRoute(
-                                builder: (context) => AddRide()),
+                            MaterialPageRoute(builder: (context) => AddRide()),
                           );
                         },
                       ),
@@ -202,16 +196,16 @@ class _homeState extends State<home> {
                             style: TextStyle(color: Colors.white),
                           ),
                           trailing: Icon(
-                            Icons.add_task ,
+                            Icons.add_task,
                             color: Colors.white,
                           ),
                         ),
                         onTap: () {
-                          // Navigator.push(
-                          //   context,
-                          //   MaterialPageRoute(
-                          //       builder: (context) => AddRide()),
-                          // );
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => requests()),
+                          );
                         },
                       ),
                     ),
