@@ -17,10 +17,6 @@ class ToCollegeTrips extends StatelessWidget {
             snapshot.data!.snapshot.value != null) {
           Map<dynamic, dynamic>? trips =
               snapshot.data!.snapshot.value as Map<dynamic, dynamic>?;
-
-          // List<MapEntry<String, dynamic>> tripList = trips?.entries.map<MapEntry<String, dynamic>>((entry) {
-          //   return MapEntry<String, dynamic>(entry.key.toString(), entry.value);
-          // }).toList() ?? [];
           List<MapEntry> tripList = trips?.entries.toList() ?? [];
 
           return ListView.builder(
