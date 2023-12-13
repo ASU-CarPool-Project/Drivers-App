@@ -276,9 +276,9 @@ class _AddRideState extends State<AddRide> {
                             FirebaseDatabase.instance.ref();
                         await databaseReference.child(direction!).push().set({
                           "driverID": userID,
+                          "driver": username,
                           "direction": direction,
                           "route": _controllerRoute.text,
-                          "name": username,
                           "phone": phone,
                           "car": _controllerCar.text,
                           "capacity": _controllerCapacity.text,

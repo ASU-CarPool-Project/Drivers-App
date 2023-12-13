@@ -1,11 +1,12 @@
-import 'package:asu_carpool_driver/TripsPage.dart';
-import 'package:asu_carpool_driver/AddRide.dart';
-import 'package:asu_carpool_driver/profile.dart';
-import 'package:asu_carpool_driver/requests.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'MyWidgets.dart';
+import 'TripsPage.dart';
+import 'AddRide.dart';
+import 'profile.dart';
+import 'requests.dart';
 import 'SignIn.dart';
 import 'about.dart';
 import 'auth.dart';
@@ -24,6 +25,9 @@ class home extends StatefulWidget {
 class _homeState extends State<home> {
   User? _user;
   Map<String, dynamic>? _userData;
+
+  DatabaseReference tripsReference =
+      FirebaseDatabase.instance.ref().child("Requests").child("Accepted");
 
   @override
   void initState() {
@@ -134,86 +138,151 @@ class _homeState extends State<home> {
         ),
         body: Container(
           // color: Colors.blue,
-          child: Center(
-            child: Padding(
-              padding: const EdgeInsets.all(5.0),
-              child: SingleChildScrollView(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Padding(
-                      padding: EdgeInsets.all(8.0),
-                      child: InkWell(
-                        child: ListTile(
-                          tileColor: colorsPrimary,
-                          title: Text(
-                            "Add Trip",
-                            style: TextStyle(color: Colors.white),
-                          ),
-                          trailing: Icon(
-                            Icons.add_circle,
-                            color: Colors.white,
-                          ),
-                        ),
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (context) => AddRide()),
-                          );
+          child: Padding(
+              padding: EdgeInsets.all(10),
+              child: Column(
+                children: [
+                  Container(
+                    // color: Colors.yellow,
+                    child: Wrap(children: [
+                      StreamBuilder(
+                        stream: tripsReference.onValue,
+                        builder:
+                            (context, AsyncSnapshot<DatabaseEvent> snapshot) {
+                          if (snapshot.hasData &&
+                              !snapshot.hasError &&
+                              snapshot.data!.snapshot.value != null) {
+                            Map<dynamic, dynamic>? trips = snapshot
+                                .data!.snapshot.value as Map<dynamic, dynamic>?;
+                            List<MapEntry> tripList =
+                                trips?.entries.toList() ?? [];
+
+                            return ListView.builder(
+                              itemCount: tripList.length,
+                              itemBuilder: (context, index) {
+                                return Padding(
+                                  padding: EdgeInsets.all(10),
+                                  child: GestureDetector(
+                                    onTap: () {},
+                                    child: Card(
+                                      color: colorsCards,
+                                      child: ListTile(
+                                        tileColor: Colors.transparent,
+                                        leading: const Icon(
+                                          Icons.pin_drop_sharp,
+                                          color: Colors.white,
+                                        ),
+                                        title: textPageTitle(
+                                            "${tripList[index].value["route"]} - ${tripList[index].value["gate"]} "),
+                                        subtitle: textPageTitle(
+                                            "${tripList[index].value["date"]} / ${tripList[index].value["time"]}"),
+                                      ),
+                                    ),
+                                  ),
+                                );
+                              },
+                            );
+                          } else {
+                            print("Errooooooooooor: ${snapshot.error}");
+                            return Card(
+                              color: colorsCards,
+                              child: ListTile(
+                                tileColor: Colors.transparent,
+                                leading: const Icon(
+                                  Icons.bus_alert,
+                                  color: Colors.white,
+                                ),
+                                title: textPageTitle("No Accepted Trips yet!"),
+                              ),
+                            );
+                          }
                         },
+                      )
+                    ]),
+                  ),
+                  Center(
+                    child: Padding(
+                      padding: const EdgeInsets.all(5.0),
+                      child: SingleChildScrollView(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Padding(
+                              padding: EdgeInsets.all(8.0),
+                              child: InkWell(
+                                child: ListTile(
+                                  tileColor: colorsPrimary,
+                                  title: Text(
+                                    "Add Trip",
+                                    style: TextStyle(color: Colors.white),
+                                  ),
+                                  trailing: Icon(
+                                    Icons.add_circle,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                                onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => AddRide()),
+                                  );
+                                },
+                              ),
+                            ),
+                            Padding(
+                              padding: EdgeInsets.all(8.0),
+                              child: InkWell(
+                                child: ListTile(
+                                  tileColor: colorsPrimary,
+                                  title: Text(
+                                    "Show Trips",
+                                    style: TextStyle(color: Colors.white),
+                                  ),
+                                  trailing: Icon(
+                                    Icons.receipt,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                                onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => TripsPage()),
+                                  );
+                                },
+                              ),
+                            ),
+                            Padding(
+                              padding: EdgeInsets.all(8.0),
+                              child: InkWell(
+                                child: ListTile(
+                                  tileColor: colorsPrimary,
+                                  title: Text(
+                                    "Requests",
+                                    style: TextStyle(color: Colors.white),
+                                  ),
+                                  trailing: Icon(
+                                    Icons.add_task,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                                onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => requests()),
+                                  );
+                                },
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
-                    Padding(
-                      padding: EdgeInsets.all(8.0),
-                      child: InkWell(
-                        child: ListTile(
-                          tileColor: colorsPrimary,
-                          title: Text(
-                            "Show Trips",
-                            style: TextStyle(color: Colors.white),
-                          ),
-                          trailing: Icon(
-                            Icons.receipt,
-                            color: Colors.white,
-                          ),
-                        ),
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => TripsPage()),
-                          );
-                        },
-                      ),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.all(8.0),
-                      child: InkWell(
-                        child: ListTile(
-                          tileColor: colorsPrimary,
-                          title: Text(
-                            "Requests",
-                            style: TextStyle(color: Colors.white),
-                          ),
-                          trailing: Icon(
-                            Icons.add_task,
-                            color: Colors.white,
-                          ),
-                        ),
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => requests()),
-                          );
-                        },
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ),
+                  ),
+                ],
+              )),
         ));
   }
 }

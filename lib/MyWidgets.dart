@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 Color? colorsPrimary = Colors.deepOrange[500];
 Color? colorsToCollege = Colors.deepOrangeAccent[100];
 Color? colorsFromCollege = Colors.deepOrangeAccent[100];
-
+Color? colorsCards = Colors.deepOrangeAccent[100];
 
 Widget textButtons(String text) {
   return Text(
@@ -32,7 +32,7 @@ Widget textLargeTitle(String text) {
   );
 }
 
-Widget iconBack(BuildContext context){
+Widget iconBack(BuildContext context) {
   return IconButton(
     icon: const Icon(
       IconData(
