@@ -1,0 +1,37 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Launch Edge",
+            "request": "launch",
+            "type": "msedge",
+            "url": "http://localhost:8080",
+            "webRoot": "${workspaceFolder}"
+        },
+      {
+        "name": "Flutter",
+        "request": "launch",
+        "type": "dart",
+        "program": "lib/main.dart",  // Adjust the path to your main.dart file
+        "flutterMode": "debug",
+        "args": [
+          "--flavor",
+          "asucarpool"
+        ],
+        "device": "flutter"
+      },
+      {
+        "name": "Android",
+        "request": "launch",
+        "type": "dart",
+        "program": "lib/main.dart",  // Adjust the path to your main.dart file
+        "flutterMode": "release",
+        "args": [
+          "--flavor",
+          "asucarpool"
+        ],
+        "device": "android"
+      }
+    ]
+  }
+  

@@ -47,19 +47,26 @@ class _requestsState extends State<requests> {
                       return Padding(
                         padding: EdgeInsets.all(10),
                         child: Card(
-                          color: Colors.yellow,
-                          child: ListTile(
-                            tileColor: Colors.transparent,
-                            leading: const Icon(
-                              Icons.pin_drop_sharp,
-                              color: Colors.white,
-                            ),
-                            title: textPageTitle(
-                                "Route: ${tripList[index].value["route"]}"),
-                            subtitle: textPageTitle(
-                                "Driver: ${tripList[index].value["name"]}"),
-                          ),
-                        ),
+                            color: Colors.yellow,
+                            child: Padding(
+                                padding: const EdgeInsets.all(10.0),
+                                child: Row(children: [
+                                  const Icon(
+                                    Icons.pin_drop_sharp,
+                                    color: Colors.white,
+                                  ),
+                                  const SizedBox(width: 5),
+                                  Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        textPageTitle(
+                                            "Route: ${tripList[index].value["route"]}"),
+                                        textPageTitle(
+                                            "${tripList[index].value["date"]} / ${tripList[index].value["time"]}"),
+                                        textPageTitle("Client: $username"),
+                                      ])
+                                ]))),
                       );
                     },
                   );
