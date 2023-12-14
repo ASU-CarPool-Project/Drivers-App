@@ -33,11 +33,11 @@ class _SignUpState extends State<SignUp> {
     try {
       UserCredential userCredential = await FirebaseAuth.instance
           .createUserWithEmailAndPassword(
-          email: _controllerEmail.text.trim(),
-          password: _controllerPassword.text);
+              email: _controllerEmail.text.trim(),
+              password: _controllerPassword.text);
 
       // Send verification email
-      await userCredential.user!.sendEmailVerification();
+      // await userCredential.user!.sendEmailVerification();
 
       // Store additional user data in Firestore
       await FirebaseFirestore.instance
@@ -53,7 +53,7 @@ class _SignUpState extends State<SignUp> {
       print("Verification email sent to ${userCredential.user!.email}");
       Fluttertoast.showToast(
         msg:
-        "Verification email sent to ${userCredential.user!.email}. Please check your email and verify your account.",
+            "Verification email sent to ${userCredential.user!.email}. Please check your email and verify your account.",
         toastLength: Toast.LENGTH_LONG,
         gravity: ToastGravity.BOTTOM,
         timeInSecForIosWeb: 4,
@@ -83,7 +83,6 @@ class _SignUpState extends State<SignUp> {
       );
     }
   }
-
 
   /////////////////////////////////////////////////////////////////////////////
 
