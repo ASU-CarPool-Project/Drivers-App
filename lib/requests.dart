@@ -15,10 +15,8 @@ class requests extends StatefulWidget {
 }
 
 class _requestsState extends State<requests> {
-  Completer<String?> _dialogCompleter = Completer<String?>();
-
   DatabaseReference tripsReference =
-      FirebaseDatabase.instance.ref().child("Requests").child("Pending");
+      FirebaseDatabase.instance.ref().child("Requests");
 
   @override
   Widget build(BuildContext context) {
@@ -32,12 +30,12 @@ class _requestsState extends State<requests> {
       body: Container(
         color: Colors.white,
         child: Padding(
-          padding: EdgeInsets.all(20),
+          padding: const EdgeInsets.all(20),
           child: Center(
             child: StreamBuilder(
               stream: tripsReference
                   .orderByChild("driverID")
-                  .equalTo("$userID")
+                  .equalTo(userID)
                   .onValue,
               builder: (context, AsyncSnapshot<DatabaseEvent> snapshot) {
                 if (snapshot.hasData &&
@@ -45,7 +43,14 @@ class _requestsState extends State<requests> {
                     snapshot.data!.snapshot.value != null) {
                   Map<dynamic, dynamic>? trips =
                       snapshot.data!.snapshot.value as Map<dynamic, dynamic>?;
-                  List<MapEntry> tripList = trips?.entries.toList() ?? [];
+                  List<MapEntry> allList = trips?.entries.toList() ?? [];
+                  String status = "Pending";
+                  List<MapEntry> tripList = allList
+                      .where((entry) => entry.value["reqStatus"]
+                          .toString()
+                          .toLowerCase()
+                          .contains(status.toLowerCase()))
+                      .toList();
 
                   return ListView.builder(
                     itemCount: tripList.length,
@@ -81,23 +86,6 @@ class _requestsState extends State<requests> {
                                     _showAcceptDeclineDialog(
                                       tripID: tripList[index].key.toString(),
                                     );
-
-                                    // print(
-                                    //     "look here: ${tripList[index].value["reqStatus"]}");
-
-                                    // DatabaseReference tripToAddReference =
-                                    //     FirebaseDatabase.instance
-                                    //         .ref()
-                                    //         .child("Requests")
-                                    //         .child("$response");
-
-                                    // Map<dynamic, dynamic>? tripData =
-                                    //     tripList[index].value;
-                                    // DatabaseReference newTripReference =
-                                    //     tripToAddReference.push();
-                                    // tripData?.forEach((key, value) {
-                                    //   newTripReference.child(key).set(value);
-                                    // });
 
                                     // DatabaseReference tripToDeleteReference =
                                     //     FirebaseDatabase.instance
