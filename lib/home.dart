@@ -10,6 +10,7 @@ import 'requests.dart';
 import 'SignIn.dart';
 import 'about.dart';
 import 'auth.dart';
+import 'tracking.dart';
 
 String username = "";
 String phone = "";
@@ -168,21 +169,145 @@ class _homeState extends State<home> {
                             itemCount: tripList.length,
                             itemBuilder: (context, index) {
                               return Padding(
-                                padding: EdgeInsets.all(10),
+                                padding: const EdgeInsets.all(10),
                                 child: GestureDetector(
-                                  onTap: () {},
-                                  child: Card(
-                                    color: colorsCards,
-                                    child: ListTile(
-                                      tileColor: Colors.transparent,
-                                      leading: const Icon(
-                                        Icons.pin_drop_sharp,
-                                        color: Colors.white,
+                                  onTap: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => tracking(
+                                            tripData: tripList[index].value,
+                                            tripKey:
+                                                tripList[index].key.toString()),
                                       ),
-                                      title: textPageTitle(
-                                          "${tripList[index].value["route"]} - ${tripList[index].value["gate"]} "),
-                                      subtitle: textPageTitle(
-                                          "${tripList[index].value["date"]} / ${tripList[index].value["time"]}"),
+                                    );
+                                  },
+                                  child: Card(
+                                    color: Colors.lightGreen,
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(10.0),
+                                      child: Row(
+                                        children: [
+                                          const Icon(
+                                            Icons.pin_drop_sharp,
+                                            color: Colors.white,
+                                          ),
+                                          const SizedBox(width: 5),
+                                          Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              textPageTitle(
+                                                  "Route: ${tripList[index].value["route"]}"),
+                                              textPageTitle(
+                                                  "${tripList[index].value["date"]} / ${tripList[index].value["time"]}"),
+                                              textPageTitle(
+                                                  "Client: ${tripList[index].value["client"]}"),
+                                              textPageTitle(
+                                                  "Status: ${tripList[index].value["reqStatus"]}"),
+                                            ],
+                                          ),
+                                          const Spacer(),
+                                          IconButton(
+                                            icon: const Icon(Icons.check),
+                                            onPressed: () {},
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              );
+                            },
+                          );
+                        } else {
+                          print("Errooooooooooor: ${snapshot.error}");
+                          return Card(
+                            color: colorsCards,
+                            child: ListTile(
+                              tileColor: Colors.transparent,
+                              leading: const Icon(
+                                Icons.bus_alert,
+                                color: Colors.white,
+                              ),
+                              title: textPageTitle("No Accepted Trips yet!"),
+                            ),
+                          );
+                        }
+                      },
+                    )),
+                  ),
+                  Container(
+                    // color: Colors.yellow,
+                    child: Expanded(
+                        child: StreamBuilder(
+                      stream: tripsReference.onValue,
+                      builder:
+                          (context, AsyncSnapshot<DatabaseEvent> snapshot) {
+                        if (snapshot.hasData &&
+                            !snapshot.hasError &&
+                            snapshot.data!.snapshot.value != null) {
+                          Map<dynamic, dynamic>? trips = snapshot
+                              .data!.snapshot.value as Map<dynamic, dynamic>?;
+                          List<MapEntry> allList =
+                              trips?.entries.toList() ?? [];
+                          String status = "in-service";
+                          List<MapEntry> tripList = allList
+                              .where((entry) => entry.value["reqStatus"]
+                                  .toString()
+                                  .toLowerCase()
+                                  .contains(status.toLowerCase()))
+                              .toList();
+
+                          return ListView.builder(
+                            itemCount: tripList.length,
+                            itemBuilder: (context, index) {
+                              return Padding(
+                                padding: const EdgeInsets.all(10),
+                                child: GestureDetector(
+                                  onTap: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => tracking(
+                                            tripData: tripList[index].value,
+                                            tripKey:
+                                                tripList[index].key.toString()),
+                                      ),
+                                    );
+                                  },
+                                  child: Card(
+                                    color: Colors.deepOrangeAccent,
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(10.0),
+                                      child: Row(
+                                        children: [
+                                          const Icon(
+                                            Icons.pin_drop_sharp,
+                                            color: Colors.white,
+                                          ),
+                                          const SizedBox(width: 5),
+                                          Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              textPageTitle(
+                                                  "Route: ${tripList[index].value["route"]}"),
+                                              textPageTitle(
+                                                  "${tripList[index].value["date"]} / ${tripList[index].value["time"]}"),
+                                              textPageTitle(
+                                                  "Client: ${tripList[index].value["client"]}"),
+                                              textPageTitle(
+                                                  "Status: ${tripList[index].value["reqStatus"]}"),
+                                            ],
+                                          ),
+                                          const Spacer(),
+                                          IconButton(
+                                            icon: const Icon(Icons.check),
+                                            onPressed: () {},
+                                          ),
+                                        ],
+                                      ),
                                     ),
                                   ),
                                 ),
@@ -214,15 +339,15 @@ class _homeState extends State<home> {
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
                             Padding(
-                              padding: EdgeInsets.all(8.0),
+                              padding: const EdgeInsets.all(8.0),
                               child: InkWell(
                                 child: ListTile(
                                   tileColor: colorsPrimary,
-                                  title: Text(
+                                  title: const Text(
                                     "Add Trip",
                                     style: TextStyle(color: Colors.white),
                                   ),
-                                  trailing: Icon(
+                                  trailing: const Icon(
                                     Icons.add_circle,
                                     color: Colors.white,
                                   ),

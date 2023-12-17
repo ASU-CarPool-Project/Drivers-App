@@ -86,18 +86,6 @@ class _requestsState extends State<requests> {
                                     _showAcceptDeclineDialog(
                                       tripID: tripList[index].key.toString(),
                                     );
-
-                                    // DatabaseReference tripToDeleteReference =
-                                    //     FirebaseDatabase.instance
-                                    //         .ref()
-                                    //         .child("Requests")
-                                    //         .child("Pending")
-                                    //         .child(tripList[index].key!);
-                                    // tripToDeleteReference.remove().then((_) {
-                                    //   print("Trip deleted successfully");
-                                    // }).catchError((error) {
-                                    //   print("Failed to delete trip: $error");
-                                    // });
                                   },
                                 ),
                               ],
