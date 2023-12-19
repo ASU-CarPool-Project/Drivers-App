@@ -40,14 +40,14 @@ class _trackingState extends State<tracking> {
                               child: Column(
                                 children: [
                                   ListTile(
-                                    leading: Icon(Icons.directions),
+                                    leading: const Icon(Icons.directions),
                                     title: Text(
                                         "${widget.tripData["direction"]} - ${widget.tripData["gate"]}"),
                                     subtitle: Text(
                                         "Route: ${widget.tripData["route"]}"),
                                   ),
                                   ListTile(
-                                    leading: Icon(Icons.access_time),
+                                    leading: const Icon(Icons.access_time),
                                     title: Text(
                                         "Time: ${widget.tripData["time"]}"),
                                     subtitle: Text(
@@ -60,13 +60,13 @@ class _trackingState extends State<tracking> {
                               color: Colors.white,
                               child: Column(children: [
                                 ListTile(
-                                  leading: Icon(Icons.car_rental),
+                                  leading: const Icon(Icons.car_rental),
                                   title: Text("Car: ${widget.tripData["car"]}"),
                                   subtitle: Text(
                                       "Capacity: ${widget.tripData["capacity"]}"),
                                 ),
                                 ListTile(
-                                  leading: Icon(Icons.person),
+                                  leading: const Icon(Icons.person),
                                   title: Text(
                                       "Driver: ${widget.tripData["driver"]}"),
                                   subtitle: Text(

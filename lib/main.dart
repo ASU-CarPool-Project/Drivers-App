@@ -11,7 +11,7 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
 
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -32,7 +32,7 @@ class MyApp extends StatelessWidget {
             return const CircularProgressIndicator();
           } else {
             final bool isLoggedIn = snapshot.hasData && snapshot.data != null;
-            return isLoggedIn ? home() : SignIn();
+            return isLoggedIn ? const home() : const SignIn();
           }
         },
       ),

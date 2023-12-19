@@ -24,7 +24,7 @@ Widget textPageTitle(String text) {
 
 Widget textLargeTitle(String text) {
   return Padding(
-    padding: EdgeInsets.all(8.0),
+    padding: const EdgeInsets.all(8.0),
     child: Text(
       text,
       style: TextStyle(fontSize: 24, color: colorsPrimary),

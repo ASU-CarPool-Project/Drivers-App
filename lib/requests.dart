@@ -1,4 +1,3 @@
-import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'MyWidgets.dart';
@@ -56,7 +55,7 @@ class _requestsState extends State<requests> {
                     itemCount: tripList.length,
                     itemBuilder: (context, index) {
                       return Padding(
-                        padding: EdgeInsets.all(10),
+                        padding: const EdgeInsets.all(10),
                         child: Card(
                           color: Colors.yellow,
                           child: Padding(
@@ -178,14 +177,14 @@ class _requestsState extends State<requests> {
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            title: Text("Confirmation Deadline Exceeded"),
-            content: Text("The confirmation deadline has passed."),
+            title: const Text("Confirmation Deadline Exceeded"),
+            content: const Text("The confirmation deadline has passed."),
             actions: [
               TextButton(
                 onPressed: () {
                   Navigator.of(context).pop();
                 },
-                child: Text("OK"),
+                child: const Text("OK"),
               ),
             ],
           );

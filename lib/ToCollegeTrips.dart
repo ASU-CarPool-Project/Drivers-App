@@ -4,6 +4,8 @@ import 'home.dart';
 import 'MyWidgets.dart';
 
 class ToCollegeTrips extends StatelessWidget {
+  const ToCollegeTrips({super.key});
+
   @override
   Widget build(BuildContext context) {
     DatabaseReference tripsReference =
@@ -32,14 +34,14 @@ class ToCollegeTrips extends StatelessWidget {
                       child: Column(
                         children: [
                           ListTile(
-                            leading: Icon(Icons.directions),
+                            leading: const Icon(Icons.directions),
                             title: Text(
                                 "${tripList[index].value["direction"]} - ${tripList[index].value["gate"]}"),
                             subtitle: Text(
                                 "Route: ${tripList[index].value["route"]}"),
                           ),
                           ListTile(
-                            leading: Icon(Icons.access_time),
+                            leading: const Icon(Icons.access_time),
                             title:
                                 Text("Time: ${tripList[index].value["time"]}"),
                             subtitle:
@@ -52,13 +54,13 @@ class ToCollegeTrips extends StatelessWidget {
                       color: Colors.white,
                       child: Column(children: [
                         ListTile(
-                          leading: Icon(Icons.car_rental),
+                          leading: const Icon(Icons.car_rental),
                           title: Text("Car: ${tripList[index].value["car"]}"),
                           subtitle: Text(
                               "Capacity: ${tripList[index].value["capacity"]}"),
                         ),
                         ListTile(
-                          leading: Icon(Icons.person),
+                          leading: const Icon(Icons.person),
                           title: Text("Name: ${tripList[index].value["name"]}"),
                           subtitle:
                               Text("Phone: ${tripList[index].value["phone"]}"),
@@ -70,7 +72,7 @@ class ToCollegeTrips extends StatelessWidget {
                       child: Column(
                         children: [
                           ListTile(
-                            leading: Icon(Icons.attach_money),
+                            leading: const Icon(Icons.attach_money),
                             title:
                                 Text("Fees: ${tripList[index].value["fee"]}"),
                           ),

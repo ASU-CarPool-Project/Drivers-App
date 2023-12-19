@@ -67,7 +67,7 @@ class _SignUpState extends State<SignUp> {
       // If sign-up is successful, navigate to home
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => home()),
+        MaterialPageRoute(builder: (context) => const home()),
       );
     } on FirebaseAuthException catch (e) {
       print("Failed to sign up: $e");
@@ -201,7 +201,7 @@ class _SignUpState extends State<SignUp> {
                               filled: true,
                               fillColor: Colors.white70,
                               hintText: "Password",
-                              icon: Icon(Icons.lock_outline_rounded),
+                              icon: const Icon(Icons.lock_outline_rounded),
                               suffixIcon: IconButton(
                                 icon: Icon(
                                   _isObscure
@@ -235,7 +235,7 @@ class _SignUpState extends State<SignUp> {
                               filled: true,
                               fillColor: Colors.white70,
                               hintText: "Confirm Password",
-                              icon: Icon(Icons.lock_outline_rounded),
+                              icon: const Icon(Icons.lock_outline_rounded),
                               suffixIcon: IconButton(
                                 icon: Icon(
                                   _isObscure

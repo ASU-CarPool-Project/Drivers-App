@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'MyWidgets.dart';
 
 class TripsPage extends StatelessWidget {
+  const TripsPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -57,7 +59,7 @@ class TripsPage extends StatelessWidget {
             ],
           ),
         ),
-        body: TabBarView(
+        body: const TabBarView(
           children: [
             ToCollegeTrips(),
             FromCollegeTrips(),

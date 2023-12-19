@@ -100,7 +100,7 @@ class _homeState extends State<home> {
                   ),
                   onTap: () {
                     Navigator.of(context).push(
-                      MaterialPageRoute(builder: (context) => profile()),
+                      MaterialPageRoute(builder: (context) => const profile()),
                     );
                   },
                 ),
@@ -114,7 +114,7 @@ class _homeState extends State<home> {
                   ),
                   onTap: () {
                     Navigator.of(context).push(
-                      MaterialPageRoute(builder: (context) => about()),
+                      MaterialPageRoute(builder: (context) => const about()),
                     );
                   },
                 ),
@@ -129,7 +129,7 @@ class _homeState extends State<home> {
                   onTap: () {
                     signOut();
                     Navigator.of(context).pushReplacement(
-                      MaterialPageRoute(builder: (context) => SignIn()),
+                      MaterialPageRoute(builder: (context) => const SignIn()),
                     );
                   },
                 ),
@@ -140,7 +140,7 @@ class _homeState extends State<home> {
         body: Container(
           // color: Colors.blue,
           child: Padding(
-              padding: EdgeInsets.all(10),
+              padding: const EdgeInsets.all(10),
               child: Column(
                 children: [
                   Container(
@@ -356,21 +356,21 @@ class _homeState extends State<home> {
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (context) => AddRide()),
+                                        builder: (context) => const AddRide()),
                                   );
                                 },
                               ),
                             ),
                             Padding(
-                              padding: EdgeInsets.all(8.0),
+                              padding: const EdgeInsets.all(8.0),
                               child: InkWell(
                                 child: ListTile(
                                   tileColor: colorsPrimary,
-                                  title: Text(
+                                  title: const Text(
                                     "Show Trips",
                                     style: TextStyle(color: Colors.white),
                                   ),
-                                  trailing: Icon(
+                                  trailing: const Icon(
                                     Icons.receipt,
                                     color: Colors.white,
                                   ),
@@ -379,21 +379,21 @@ class _homeState extends State<home> {
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (context) => TripsPage()),
+                                        builder: (context) => const TripsPage()),
                                   );
                                 },
                               ),
                             ),
                             Padding(
-                              padding: EdgeInsets.all(8.0),
+                              padding: const EdgeInsets.all(8.0),
                               child: InkWell(
                                 child: ListTile(
                                   tileColor: colorsPrimary,
-                                  title: Text(
+                                  title: const Text(
                                     "Requests",
                                     style: TextStyle(color: Colors.white),
                                   ),
-                                  trailing: Icon(
+                                  trailing: const Icon(
                                     Icons.add_task,
                                     color: Colors.white,
                                   ),
@@ -402,7 +402,7 @@ class _homeState extends State<home> {
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (context) => requests()),
+                                        builder: (context) => const requests()),
                                   );
                                 },
                               ),
