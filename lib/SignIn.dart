@@ -22,8 +22,7 @@ class _SignInState extends State<SignIn> {
 
   Future<void> _signIn() async {
     try {
-      UserCredential userCredential = await FirebaseAuth.instance
-          .signInWithEmailAndPassword(
+      await FirebaseAuth.instance.signInWithEmailAndPassword(
           email: controllerEmail.text.trim(),
           password: controllerPassword.text);
 
@@ -88,7 +87,7 @@ class _SignInState extends State<SignIn> {
             ElevatedButton(
               style: ButtonStyle(
                 backgroundColor:
-                MaterialStateProperty.all<Color>(colorsPrimary!),
+                    MaterialStateProperty.all<Color>(colorsPrimary!),
               ),
               onPressed: () async {
                 // Close the dialog
@@ -101,7 +100,7 @@ class _SignInState extends State<SignIn> {
                   // Show a success toast message
                   Fluttertoast.showToast(
                     msg:
-                    "Password reset email sent. Check your email to reset your password.",
+                        "Password reset email sent. Check your email to reset your password.",
                     toastLength: Toast.LENGTH_LONG,
                     gravity: ToastGravity.BOTTOM,
                     timeInSecForIosWeb: 4,
@@ -131,7 +130,6 @@ class _SignInState extends State<SignIn> {
       },
     );
   }
-
 
   /////////////////////////////////////////////////////////////////////////////
 
@@ -183,7 +181,8 @@ class _SignInState extends State<SignIn> {
                         height: 20,
                       ),
                       TextFormField(
-                        obscureText: _isObscure, // _isObscure is a boolean variable to toggle visibility
+                        obscureText:
+                            _isObscure, // _isObscure is a boolean variable to toggle visibility
                         controller: controllerPassword,
                         validator: (value) {
                           if (value == null || value.isEmpty) {
@@ -200,7 +199,9 @@ class _SignInState extends State<SignIn> {
                           icon: const Icon(Icons.lock_outline_rounded),
                           suffixIcon: IconButton(
                             icon: Icon(
-                              _isObscure ? Icons.visibility : Icons.visibility_off,
+                              _isObscure
+                                  ? Icons.visibility
+                                  : Icons.visibility_off,
                             ),
                             onPressed: () {
                               setState(() {
@@ -210,7 +211,6 @@ class _SignInState extends State<SignIn> {
                           ),
                         ),
                       ),
-
                       const SizedBox(
                         height: 30,
                       ),
@@ -220,7 +220,7 @@ class _SignInState extends State<SignIn> {
                 ElevatedButton(
                   style: ButtonStyle(
                     backgroundColor:
-                    MaterialStateProperty.all<Color>(colorsPrimary!),
+                        MaterialStateProperty.all<Color>(colorsPrimary!),
                   ),
                   onPressed: _signIn,
                   child: textButtons("Sign In"),

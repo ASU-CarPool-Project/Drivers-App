@@ -238,7 +238,7 @@ class _AddRideState extends State<AddRide> {
                         SizedBox(height: boxHeight),
                         TextFormField(
                           decoration: const InputDecoration(
-                            icon: Icon(Icons.currency_pound),
+                            icon: Icon(Icons.attach_money),
                             filled: true,
                             fillColor: Colors.white70,
                             hintText: "Trip Fee",
