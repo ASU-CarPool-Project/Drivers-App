@@ -84,6 +84,7 @@ class _requestsState extends State<requests> {
                                   icon: const Icon(Icons.check),
                                   onPressed: () {
                                     _showAcceptDeclineDialog(
+                                      tripList[index],
                                       tripID: tripList[index].key.toString(),
                                     );
                                   },
@@ -117,33 +118,80 @@ class _requestsState extends State<requests> {
   //////////////////////////////////////////////////////////////////////////////
   /// My Functions
 
-  void _showAcceptDeclineDialog({required String tripID}) async {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: const Text("Accept or Decline?"),
-          actions: [
-            TextButton(
-              onPressed: () {
-                _updateStatus(tripID, "Accepted");
-                Navigator.of(context).pop();
-              },
-              child: const Text("Accept"),
-            ),
-            TextButton(
-              onPressed: () {
-                _updateStatus(tripID, "Declined");
-                Navigator.of(context).pop();
-              },
-              child: const Text("Decline"),
-            ),
-          ],
-        );
-      },
-    );
+  void _showAcceptDeclineDialog(var trip, {required String tripID}) async {
+    // Get the current date and time
+    DateTime currentDate = DateTime.now();
 
-    // Return the Future from the Completer
+    // Calculate the confirmation deadline based on the trip time
+    DateTime confirmationDeadline;
+    if (trip.value["time"] == "7:30 AM") {
+      confirmationDeadline = DateTime(
+        currentDate.year,
+        currentDate.month,
+        currentDate.day,
+        23, // 11:30 PM
+        30,
+      );
+    } else if (trip.value["time"] == "5:30 PM") {
+      confirmationDeadline = DateTime(
+        currentDate.year,
+        currentDate.month,
+        currentDate.day,
+        16, // 4:30 PM
+        30,
+      );
+    } else {
+      // Handle other trip times if needed
+      confirmationDeadline = DateTime.now();
+    }
+
+    // Check if the current date and time are within the confirmation deadline
+    if (currentDate.isBefore(confirmationDeadline)) {
+      // Confirmation deadline not reached, proceed with the confirmation
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: const Text("Accept or Decline?"),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  _updateStatus(tripID, "Accepted");
+                  Navigator.of(context).pop();
+                },
+                child: const Text("Accept"),
+              ),
+              TextButton(
+                onPressed: () {
+                  _updateStatus(tripID, "Declined");
+                  Navigator.of(context).pop();
+                },
+                child: const Text("Decline"),
+              ),
+            ],
+          );
+        },
+      );
+    } else {
+      // Confirmation deadline reached, notify the driver
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text("Confirmation Deadline Exceeded"),
+            content: Text("The confirmation deadline has passed."),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: Text("OK"),
+              ),
+            ],
+          );
+        },
+      );
+    }
   }
 
   void _updateStatus(String tripID, String newStatus) {

@@ -101,12 +101,8 @@ class _AddRideState extends State<AddRide> {
                             });
                           },
                           items: [
-                            'Gate 1',
-                            'Gate 2',
                             'Gate 3',
                             'Gate 4',
-                            'Gate 5',
-                            'Gate 6',
                           ].map<DropdownMenuItem<String>>((String value) {
                             return DropdownMenuItem<String>(
                               value: value,
