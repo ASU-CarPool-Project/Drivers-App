@@ -1,7 +1,8 @@
+import 'package:asu_carpool_driver/DatabaseClass.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:sqflite/sqflite.dart';
 import 'MyWidgets.dart';
 import 'home.dart';
 
@@ -13,6 +14,13 @@ class SignUp extends StatefulWidget {
 }
 
 class _SignUpState extends State<SignUp> {
+  //////////////////////////////////////////////////////////////////////////////
+
+  LocalDatabase mydb = LocalDatabase();
+  List<Map> mylist = [];
+
+  //////////////////////////////////////////////////////////////////////////////
+  ///
   final GlobalKey<FormState> _formKey = GlobalKey();
   final TextEditingController _controllerFirstName = TextEditingController();
   final TextEditingController _controllerLastName = TextEditingController();
@@ -50,17 +58,16 @@ class _SignUpState extends State<SignUp> {
         'phone': _controllerPhone.text,
       });
 
+      await mydb.write(
+          '''INSERT INTO 'USERS' ('USER_ID','FIRST_NAME', 'LAST_NAME', 'EMAIL', 'PHONE') VALUES
+                                ('${userCredential.user!.uid}',
+                                 '${_controllerFirstName.text}',
+                                 '${_controllerLastName.text}',
+                                 '${_controllerEmail.text}',
+                                 '${_controllerPhone.text}') ''');
+
       print("Verification email sent to ${userCredential.user!.email}");
-      Fluttertoast.showToast(
-        msg:
-            "Verification email sent to ${userCredential.user!.email}. Please check your email and verify your account.",
-        toastLength: Toast.LENGTH_LONG,
-        gravity: ToastGravity.BOTTOM,
-        timeInSecForIosWeb: 4,
-        backgroundColor: Colors.green,
-        textColor: Colors.white,
-        fontSize: 16.0,
-      );
+      toastMsg("Verification email sent to ${userCredential.user!.email}");
 
       // Reset the form after successful signup
       _formKey.currentState!.reset();
@@ -72,15 +79,7 @@ class _SignUpState extends State<SignUp> {
     } on FirebaseAuthException catch (e) {
       print("Failed to sign up: $e");
       // Handle sign-up errors here
-      Fluttertoast.showToast(
-        msg: "$e",
-        toastLength: Toast.LENGTH_SHORT,
-        gravity: ToastGravity.BOTTOM,
-        timeInSecForIosWeb: 1,
-        backgroundColor: Colors.green,
-        textColor: Colors.white,
-        fontSize: 16.0,
-      );
+      toastMsg("Sign-up Error: $e");
     }
   }
 

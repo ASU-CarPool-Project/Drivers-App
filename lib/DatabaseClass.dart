@@ -1,7 +1,7 @@
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 
-class myDatabase {
+class LocalDatabase {
   Database? mydatabase;
 
   Future<Database?> checkdata() async {
@@ -13,18 +13,19 @@ class myDatabase {
     }
   }
 
-  int Version = 1;
-  String DBname = 'businesscards.db';
+  int dbVersion = 1;
+  String dbName = 'asucarpool_driver.db';
 
   creating() async {
     String databasepath = await getDatabasesPath();
-    String mypath = join(databasepath, DBname);
+    String mypath = join(databasepath, dbName);
     Database mydb =
-        await openDatabase(mypath, version: Version, onCreate: (db, version) {
-      db.execute('''CREATE TABLE IF NOT EXISTS 'FILE1'(
+        await openDatabase(mypath, version: dbVersion, onCreate: (db, version) {
+      db.execute('''CREATE TABLE IF NOT EXISTS 'USERS'(
       'ID' INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
-      'NAME' TEXT NOT NULL,
-      'COMPANY' TEXT NOT NULL,
+      'IMAGE_URL' TEXT,
+      'FIRST_NAME' TEXT NOT NULL,
+      'LAST_NAME' TEXT NOT NULL,
       'EMAIL' TEXT NOT NULL,
       'PHONE' TEXT NOT NULL)''');
     });
@@ -33,37 +34,37 @@ class myDatabase {
 
   isexist() async {
     String databasepath = await getDatabasesPath();
-    String mypath = join(databasepath, DBname);
+    String mypath = join(databasepath, dbName);
     await databaseExists(mypath) ? print("it exists") : print("not exist");
   }
 
   reseting() async {
     String databasepath = await getDatabasesPath();
-    String mypath = join(databasepath, 'businesscards.db');
+    String mypath = join(databasepath, dbName);
     await deleteDatabase(mypath);
   }
 
   reading(sql) async {
-    Database? somevar = await checkdata();
-    var myesponse = somevar!.rawQuery(sql);
-    return myesponse;
+    Database? myDB = await checkdata();
+    var myResponse = myDB!.rawQuery(sql);
+    return myResponse;
   }
 
   write(sql) async {
-    Database? somevar = await checkdata();
-    var myesponse = somevar!.rawInsert(sql);
-    return myesponse;
+    Database? myDB = await checkdata();
+    var myResponse = myDB!.rawInsert(sql);
+    return myResponse;
   }
 
   update(sql) async {
-    Database? somevar = await checkdata();
-    var myesponse = somevar!.rawUpdate(sql);
-    return myesponse;
+    Database? myDB = await checkdata();
+    var myResponse = myDB!.rawUpdate(sql);
+    return myResponse;
   }
 
   delete(sql) async {
-    Database? somevar = await checkdata();
-    var myesponse = somevar!.rawDelete(sql);
-    return myesponse;
+    Database? myDB = await checkdata();
+    var myResponse = myDB!.rawDelete(sql);
+    return myResponse;
   }
 }

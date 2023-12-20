@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 Color? colorsPrimary = Colors.deepOrange[500];
 Color? colorsToCollege = Colors.deepOrangeAccent[100];
@@ -32,6 +33,32 @@ Widget textLargeTitle(String text) {
   );
 }
 
+Widget textPlace(String label, String value) {
+  return Padding(
+    padding: const EdgeInsets.symmetric(vertical: 8.0),
+    child: Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Text(
+          label,
+          style: const TextStyle(
+            fontSize: 18.0,
+            fontWeight: FontWeight.bold,
+            color: Colors.blue,
+          ),
+        ),
+        Text(
+          value,
+          style: const TextStyle(
+            fontSize: 18.0,
+            color: Colors.black,
+          ),
+        ),
+      ],
+    ),
+  );
+}
+
 Widget iconBack(BuildContext context) {
   return IconButton(
     icon: const Icon(
@@ -45,5 +72,17 @@ Widget iconBack(BuildContext context) {
     onPressed: () {
       Navigator.of(context).pop();
     },
+  );
+}
+
+Future<bool?> toastMsg(String message) {
+  return Fluttertoast.showToast(
+    msg: message,
+    toastLength: Toast.LENGTH_SHORT,
+    gravity: ToastGravity.BOTTOM,
+    timeInSecForIosWeb: 4,
+    backgroundColor: Colors.green,
+    textColor: Colors.white,
+    fontSize: 16.0,
   );
 }
