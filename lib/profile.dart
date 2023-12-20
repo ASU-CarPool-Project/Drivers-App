@@ -1,9 +1,8 @@
-import 'package:asu_carpool_driver/DatabaseClass.dart';
-import 'package:asu_carpool_driver/home.dart';
-import 'package:connectivity/connectivity.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:connectivity/connectivity.dart';
 import 'MyWidgets.dart';
 
 class profile extends StatefulWidget {
@@ -14,10 +13,14 @@ class profile extends StatefulWidget {
 }
 
 class _profileState extends State<profile> {
-  LocalDatabase mydb = LocalDatabase();
-  User? _user;
   Map<String, dynamic>? _userData;
+
   String? connection;
+  String? firstName;
+  String? lastName;
+  String? name;
+  String? email;
+  String? phone;
 
   @override
   void initState() {
@@ -25,51 +28,80 @@ class _profileState extends State<profile> {
     super.initState();
   }
 
-  /////////////////////////////////////////////////////////////////////////////
+  Future<SharedPreferences> getPref() async {
+    SharedPreferences myPref = await SharedPreferences.getInstance();
+    return myPref;
+  }
 
   Future<void> _getUserInfo() async {
-    // Check for internet connectivity
-    var connectivityResult = await (Connectivity().checkConnectivity());
-    if (connectivityResult == ConnectivityResult.none) {
-      print("---------------> No internet connection");
-      connection = "From Local Database";
-      print("Local DB 1");
-      _fetchDataFromSQLite();
-      // _fetchDataFromFirestore();
-    } else {
-      connection = "From Online DataBase";
-      print("Online DB 1");
-      // _fetchDataFromFirestore();
-      _fetchDataFromSQLite();
+    try {
+      // Check for internet connection using the connectivity package
+      var connectivityResult = await Connectivity().checkConnectivity();
+      bool hasInternetConnection =
+          connectivityResult == ConnectivityResult.mobile ||
+              connectivityResult == ConnectivityResult.wifi;
+      print(hasInternetConnection);
+      if (hasInternetConnection) {
+        print("Internet connection");
+        print("Online DB 1");
+        await _fetchDataFromFirestore();
+        // await _fetchDataFromPref();
+      } else {
+        print("No internet connection");
+        print("Local DB 1");
+        await _fetchDataFromPref();
+      }
+    } catch (e) {
+      print("Error: $e");
     }
   }
 
   Future<void> _fetchDataFromFirestore() async {
-    print("Online DB 2");
-    User? user = FirebaseAuth.instance.currentUser;
-    if (user != null) {
-      DocumentSnapshot<Map<String, dynamic>> userData = await FirebaseFirestore
-          .instance
-          .collection('users_driver')
-          .doc(user.uid)
-          .get();
+    try {
+      print("Online DB 2");
+      User? user = FirebaseAuth.instance.currentUser;
+      if (user != null) {
+        DocumentSnapshot<Map<String, dynamic>> userData =
+            await FirebaseFirestore.instance
+                .collection('users_driver')
+                .doc(user.uid)
+                .get();
 
-      setState(() {
-        _user = user;
-        _userData = userData.data();
-      });
+        setState(() {
+          _userData = userData.data();
+          connection = "From Online DataBase";
+
+          name = '${_userData!['firstName']} ${_userData!['lastName']}';
+          email = _userData!['email'];
+          phone = _userData!['phone'];
+        });
+      } else {
+        await _fetchDataFromPref();
+      }
+    } catch (e) {
+      print("Error: $e");
     }
   }
 
-  Future<void> _fetchDataFromSQLite() async {
-    print("Local DB 2");
-    Map<String, dynamic>? RESPONSE =
-        await mydb.reading('''SELECT * FROM '$userID' ''');
-    _userData = RESPONSE;
-    setState(() {});
-  }
+  Future<void> _fetchDataFromPref() async {
+    try {
+      print("Local DB 2");
+      SharedPreferences myPref = await getPref();
+      setState(() {
+        connection = "From Local Database";
 
-  /////////////////////////////////////////////////////////////////////////////
+        firstName = myPref.getString('firstName') ?? '';
+        lastName = myPref.getString('lastName') ?? '';
+        email = myPref.getString('email') ?? '';
+        phone = myPref.getString('phone') ?? '';
+        name = '$firstName $lastName';
+
+        print(name);
+      });
+    } catch (e) {
+      print("Error: $e");
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -88,16 +120,10 @@ class _profileState extends State<profile> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                if (connection != null) textPlace("Connection: ", connection!),
-                if (_userData != null)
-                  textPlace(
-                      "Name: ",
-                      _userData!['firstName'] + " " + _userData!['lastName'] ??
-                          ''),
-                if (_userData != null)
-                  textPlace("Email: ", _userData!['email'] ?? ''),
-                if (_userData != null)
-                  textPlace("Phone Number: ", _userData!['phone'] ?? ''),
+                textPlace("Connection: ", connection ?? ''),
+                textPlace("Name: ", name ?? ''),
+                textPlace("Email: ", email ?? ''),
+                textPlace("Phone Number: ", phone ?? ''),
               ],
             ),
           ),

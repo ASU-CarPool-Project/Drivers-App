@@ -100,7 +100,7 @@ class _homeState extends State<home> {
                   ),
                   onTap: () {
                     Navigator.of(context).push(
-                      MaterialPageRoute(builder: (context) => const profile()),
+                      MaterialPageRoute(builder: (context) => profile()),
                     );
                   },
                 ),

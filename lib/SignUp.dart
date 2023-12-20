@@ -2,6 +2,7 @@ import 'package:asu_carpool_driver/DatabaseClass.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sqflite/sqflite.dart';
 import 'MyWidgets.dart';
 import 'home.dart';
@@ -37,6 +38,11 @@ class _SignUpState extends State<SignUp> {
 
   /////////////////////////////////////////////////////////////////////////////
 
+  Future<SharedPreferences> getPref() async {
+    SharedPreferences myPref = await SharedPreferences.getInstance();
+    return myPref;
+  }
+
   Future<void> _register() async {
     try {
       UserCredential userCredential = await FirebaseAuth.instance
@@ -44,8 +50,10 @@ class _SignUpState extends State<SignUp> {
               email: _controllerEmail.text.trim(),
               password: _controllerPassword.text);
 
-      // Send verification email
+      //// Send verification email
       // await userCredential.user!.sendEmailVerification();
+      // print("Verification email sent to ${userCredential.user!.email}");
+      // toastMsg("Verification email sent to ${userCredential.user!.email}");
 
       // Store additional user data in Firestore
       await FirebaseFirestore.instance
@@ -58,16 +66,11 @@ class _SignUpState extends State<SignUp> {
         'phone': _controllerPhone.text,
       });
 
-      await mydb.write(
-          '''INSERT INTO 'USERS' ('USER_ID','FIRST_NAME', 'LAST_NAME', 'EMAIL', 'PHONE') VALUES
-                                ('${userCredential.user!.uid}',
-                                 '${_controllerFirstName.text}',
-                                 '${_controllerLastName.text}',
-                                 '${_controllerEmail.text}',
-                                 '${_controllerPhone.text}') ''');
-
-      print("Verification email sent to ${userCredential.user!.email}");
-      toastMsg("Verification email sent to ${userCredential.user!.email}");
+      SharedPreferences myPref = await getPref();
+      myPref.setString('firstName', _controllerFirstName.text);
+      myPref.setString('lastName', _controllerLastName.text);
+      myPref.setString('email', _controllerEmail.text);
+      myPref.setString('phone', _controllerPhone.text);
 
       // Reset the form after successful signup
       _formKey.currentState!.reset();
@@ -78,7 +81,6 @@ class _SignUpState extends State<SignUp> {
       );
     } on FirebaseAuthException catch (e) {
       print("Failed to sign up: $e");
-      // Handle sign-up errors here
       toastMsg("Sign-up Error: $e");
     }
   }

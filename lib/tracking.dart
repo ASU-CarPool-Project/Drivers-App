@@ -17,6 +17,7 @@ class _trackingState extends State<tracking> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
+          leading: iconBack(context),
           backgroundColor: colorsPrimary,
           title: textPageTitle("Pickup Request"),
           centerTitle: true,
