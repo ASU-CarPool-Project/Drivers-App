@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'MyWidgets.dart';
+import 'TripEnd.dart';
 import 'TripsPage.dart';
 import 'AddRide.dart';
 import 'profile.dart';
@@ -10,7 +11,7 @@ import 'requests.dart';
 import 'SignIn.dart';
 import 'about.dart';
 import 'auth.dart';
-import 'tracking.dart';
+import 'TripStart.dart';
 
 String username = "";
 String phone = "";
@@ -147,7 +148,10 @@ class _homeState extends State<home> {
                     // color: Colors.yellow,
                     child: Expanded(
                         child: StreamBuilder(
-                      stream: tripsReference.onValue,
+                      stream: tripsReference
+                          .orderByChild("driverID")
+                          .equalTo(userID)
+                          .onValue,
                       builder:
                           (context, AsyncSnapshot<DatabaseEvent> snapshot) {
                         if (snapshot.hasData &&
@@ -155,6 +159,7 @@ class _homeState extends State<home> {
                             snapshot.data!.snapshot.value != null) {
                           Map<dynamic, dynamic>? trips = snapshot
                               .data!.snapshot.value as Map<dynamic, dynamic>?;
+
                           List<MapEntry> allList =
                               trips?.entries.toList() ?? [];
                           String status = "Accepted";
@@ -175,7 +180,7 @@ class _homeState extends State<home> {
                                     Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                        builder: (context) => tracking(
+                                        builder: (context) => TripStart(
                                             tripData: tripList[index].value,
                                             tripKey:
                                                 tripList[index].key.toString()),
@@ -241,7 +246,10 @@ class _homeState extends State<home> {
                     // color: Colors.yellow,
                     child: Expanded(
                         child: StreamBuilder(
-                      stream: tripsReference.onValue,
+                      stream: tripsReference
+                          .orderByChild("driverID")
+                          .equalTo(userID)
+                          .onValue,
                       builder:
                           (context, AsyncSnapshot<DatabaseEvent> snapshot) {
                         if (snapshot.hasData &&
@@ -269,7 +277,7 @@ class _homeState extends State<home> {
                                     Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                        builder: (context) => tracking(
+                                        builder: (context) => TripEnd(
                                             tripData: tripList[index].value,
                                             tripKey:
                                                 tripList[index].key.toString()),
@@ -324,7 +332,7 @@ class _homeState extends State<home> {
                                 Icons.bus_alert,
                                 color: Colors.white,
                               ),
-                              title: textPageTitle("No Accepted Trips yet!"),
+                              title: textPageTitle("No Trips In-service yet!"),
                             ),
                           );
                         }

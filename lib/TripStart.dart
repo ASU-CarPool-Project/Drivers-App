@@ -2,17 +2,17 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'MyWidgets.dart';
 
-class tracking extends StatefulWidget {
+class TripStart extends StatefulWidget {
   final Map<String, dynamic> tripData;
   final String tripKey;
-  const tracking({Key? key, required this.tripData, required this.tripKey})
+  const TripStart({Key? key, required this.tripData, required this.tripKey})
       : super(key: key);
 
   @override
-  State<tracking> createState() => _trackingState();
+  State<TripStart> createState() => _TripStartState();
 }
 
-class _trackingState extends State<tracking> {
+class _TripStartState extends State<TripStart> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -101,7 +101,7 @@ class _trackingState extends State<tracking> {
                   style: ButtonStyle(
                       backgroundColor:
                           MaterialStateProperty.all<Color>(Colors.green)),
-                  child: textButtons("Start"),
+                  child: textButtons("Start Trip"),
                   onPressed: () async {
                     DatabaseReference databaseReference =
                         FirebaseDatabase.instance.ref();
