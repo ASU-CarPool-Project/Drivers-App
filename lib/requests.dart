@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'MyWidgets.dart';
 import 'package:firebase_database/firebase_database.dart';
@@ -117,6 +116,33 @@ class _requestsState extends State<requests> {
   //////////////////////////////////////////////////////////////////////////////
   /// My Functions
 
+  void _showAcceptDeclineDialogTester(var trip, {required String tripID}) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text("Accept or Decline?"),
+          actions: [
+            TextButton(
+              onPressed: () {
+                _updateStatus(tripID, "Accepted");
+                Navigator.of(context).pop();
+              },
+              child: const Text("Accept"),
+            ),
+            TextButton(
+              onPressed: () {
+                _updateStatus(tripID, "Declined");
+                Navigator.of(context).pop();
+              },
+              child: const Text("Decline"),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   void _showAcceptDeclineDialog(var trip, {required String tripID}) async {
     // Get the current date and time
     DateTime currentDate = DateTime.now();
@@ -185,6 +211,13 @@ class _requestsState extends State<requests> {
                   Navigator.of(context).pop();
                 },
                 child: const Text("OK"),
+              ),
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                  _showAcceptDeclineDialogTester(trip, tripID: tripID);
+                },
+                child: const Text("Continue as a Tester"),
               ),
             ],
           );
