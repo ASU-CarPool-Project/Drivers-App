@@ -25,16 +25,17 @@ class ToCollegeTrips extends StatelessWidget {
             itemCount: tripList.length,
             itemBuilder: (context, index) {
               return tripCard(
-                  tripList[index].value,
-                  "${tripList[index].value["direction"]} - ${tripList[index].value["gate"]}",
-                  "${tripList[index].value["route"]}",
-                  "${tripList[index].value["time"]}",
-                  "${tripList[index].value["date"]}",
-                  "${tripList[index].value["car"]}",
-                  "${tripList[index].value["capacity"]}",
-                  "${tripList[index].value["driver"]}",
-                  "${tripList[index].value["phone"]}",
-                  "${tripList[index].value["fee"]}");
+                tripList[index].value,
+                "${tripList[index].value["direction"]} - ${tripList[index].value["gate"]}",
+                "${tripList[index].value["route"]}",
+                "${tripList[index].value["time"]}",
+                "${tripList[index].value["date"]}",
+                "${tripList[index].value["car"]}",
+                "${tripList[index].value["capacity"]}",
+                "${tripList[index].value["driver"]}",
+                "${tripList[index].value["phone"]}",
+                "${tripList[index].value["fee"]}",
+              );
             },
           );
         } else {

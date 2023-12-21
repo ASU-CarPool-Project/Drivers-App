@@ -32,15 +32,16 @@ class _TripEndState extends State<TripEnd> {
                     padding: const EdgeInsets.all(20),
                     child: Center(
                       child: tripCardTrack(
-                          "${widget.tripData["direction"]} - ${widget.tripData["gate"]}",
-                          "${widget.tripData["route"]}",
-                          "${widget.tripData["time"]}",
-                          "${widget.tripData["date"]}",
-                          "${widget.tripData["car"]}",
-                          "${widget.tripData["capacity"]}",
-                          "${widget.tripData["driver"]}",
-                          "${widget.tripData["phone"]}",
-                          "${widget.tripData["fee"]}"),
+                        "${widget.tripData["direction"]} - ${widget.tripData["gate"]}",
+                        "${widget.tripData["route"]}",
+                        "${widget.tripData["time"]}",
+                        "${widget.tripData["date"]}",
+                        "${widget.tripData["car"]}",
+                        "${widget.tripData["capacity"]}",
+                        "${widget.tripData["driver"]}",
+                        "${widget.tripData["phone"]}",
+                        "${widget.tripData["fee"]}",
+                      ),
                     ),
                   ),
                 ),
@@ -183,7 +184,7 @@ class _TripEndState extends State<TripEnd> {
     await databaseReference
         .child("Requests")
         .child(widget.tripKey)
-        .update({"complian": "issue: $issuesText"});
+        .update({"complain": "issue: $issuesText"});
     print("Issues sent to the database: $issuesText");
   }
 }
