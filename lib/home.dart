@@ -1,3 +1,4 @@
+import 'package:asu_carpool_driver/complains.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -102,6 +103,20 @@ class _homeState extends State<home> {
                   onTap: () {
                     Navigator.of(context).push(
                       MaterialPageRoute(builder: (context) => profile()),
+                    );
+                  },
+                ),
+                const Divider(),
+                ListTile(
+                  // tileColor: Theme.of(context).colorScheme.secondary,
+                  leading: Icon(Icons.face, color: colorsPrimary),
+                  title: Text(
+                    "Complains",
+                    style: TextStyle(color: colorsPrimary),
+                  ),
+                  onTap: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(builder: (context) => complains()),
                     );
                   },
                 ),

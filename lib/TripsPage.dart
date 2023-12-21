@@ -1,5 +1,5 @@
-import 'package:asu_carpool_driver/FromCollegeTrips.dart';
-import 'package:asu_carpool_driver/ToCollegeTrips.dart';
+import 'package:asu_carpool_driver/CollegeTripsFrom.dart';
+import 'package:asu_carpool_driver/CollegeTripsTo.dart';
 import 'package:flutter/material.dart';
 import 'MyWidgets.dart';
 
