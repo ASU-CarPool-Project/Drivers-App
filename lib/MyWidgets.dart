@@ -1,12 +1,16 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
+/// My Colors
 Color? colorsPrimary = Colors.deepOrange[500];
 Color? colorsToCollege = Colors.deepOrangeAccent[100];
 Color? colorsFromCollege = Colors.deepOrangeAccent[100];
 Color? colorsCards = Colors.deepOrangeAccent[100];
 
+/// Text Widgets
 Widget textButtons(String text) {
   return Text(
     text,
@@ -60,6 +64,7 @@ Widget textPlace(String label, String value) {
   );
 }
 
+/// Icons
 Widget iconBack(BuildContext context) {
   return IconButton(
     icon: const Icon(
@@ -76,6 +81,7 @@ Widget iconBack(BuildContext context) {
   );
 }
 
+/// Toast Messages
 Future<bool?> toastMsg(String message) {
   return Fluttertoast.showToast(
     msg: message,
@@ -88,6 +94,7 @@ Future<bool?> toastMsg(String message) {
   );
 }
 
+/// Trip Cards
 Widget tripCard(
   var currTrip,
   String? route,
@@ -238,3 +245,4 @@ Widget tripCardTrack(
     ),
   );
 }
+

@@ -82,9 +82,7 @@ class _complainsState extends State<complains> {
                                 const Spacer(),
                                 IconButton(
                                   icon: const Icon(Icons.check),
-                                  onPressed: () {
-                                    
-                                  },
+                                  onPressed: () {},
                                 ),
                               ],
                             ),
@@ -113,5 +111,4 @@ class _complainsState extends State<complains> {
   }
 
   //////////////////////////////////////////////////////////////////////////////
-  
 }

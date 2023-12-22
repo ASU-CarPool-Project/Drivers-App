@@ -1,9 +1,8 @@
+import 'package:asu_carpool_driver/DatabaseClass.dart';
 import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:connectivity/connectivity.dart';
 import 'MyWidgets.dart';
+import 'auth.dart';
 
 class profile extends StatefulWidget {
   const profile({Key? key}) : super(key: key);
@@ -14,13 +13,12 @@ class profile extends StatefulWidget {
 
 class _profileState extends State<profile> {
   Map<String, dynamic>? _userData;
-
   String? connection;
-  String? firstName;
-  String? lastName;
   String? name;
   String? email;
   String? phone;
+
+  final LocalDatabase db = LocalDatabase();
 
   @override
   void initState() {
@@ -28,79 +26,43 @@ class _profileState extends State<profile> {
     super.initState();
   }
 
-  Future<SharedPreferences> getPref() async {
-    SharedPreferences myPref = await SharedPreferences.getInstance();
-    return myPref;
-  }
-
   Future<void> _getUserInfo() async {
-    try {
-      // Check for internet connection using the connectivity package
-      var connectivityResult = await Connectivity().checkConnectivity();
-      bool hasInternetConnection =
-          connectivityResult == ConnectivityResult.mobile ||
-              connectivityResult == ConnectivityResult.wifi;
-      print(hasInternetConnection);
-      if (hasInternetConnection) {
-        print("Internet connection");
-        print("Online DB 1");
-        await _fetchDataFromFirestore();
-        // await _fetchDataFromPref();
-      } else {
-        print("No internet connection");
-        print("Local DB 1");
-        await _fetchDataFromPref();
-      }
-    } catch (e) {
-      print("Error: $e");
-    }
-  }
+    final isConnected = await checkConnection();
 
-  Future<void> _fetchDataFromFirestore() async {
-    try {
-      print("Online DB 2");
-      User? user = FirebaseAuth.instance.currentUser;
-      if (user != null) {
-        DocumentSnapshot<Map<String, dynamic>> userData =
-            await FirebaseFirestore.instance
-                .collection('users_driver')
-                .doc(user.uid)
-                .get();
-
-        setState(() {
-          _userData = userData.data();
-          connection = "From Online DataBase";
-
-          name = '${_userData!['firstName']} ${_userData!['lastName']}';
-          email = _userData!['email'];
-          phone = _userData!['phone'];
-        });
-      } else {
-        await _fetchDataFromPref();
-      }
-    } catch (e) {
-      print("Error: $e");
-    }
-  }
-
-  Future<void> _fetchDataFromPref() async {
-    try {
-      print("Local DB 2");
-      SharedPreferences myPref = await getPref();
+    if (isConnected) {
+      // Fetch user profile data from Firestore
+      final userData = await fetchUserProfile();
       setState(() {
-        connection = "From Local Database";
+        _userData = userData;
+        connection = "From Online DataBase";
 
-        firstName = myPref.getString('firstName') ?? '';
-        lastName = myPref.getString('lastName') ?? '';
-        email = myPref.getString('email') ?? '';
-        phone = myPref.getString('phone') ?? '';
-        name = '$firstName $lastName';
-
-        print(name);
+        name = '${_userData!['firstName']} ${_userData!['lastName']}';
+        email = _userData!['email'];
+        phone = _userData!['phone'];
       });
-    } catch (e) {
-      print("Error: $e");
+    } else {
+      // Fetch user profile data from local database
+      final response = await db.reading('''SELECT * FROM 'USERS' LIMIT 1''');
+      if (response.isNotEmpty) {
+        final userFromDB = response.first;
+        setState(() {
+          connection = "From Local Database";
+          name = '${userFromDB['FIRST_NAME']} ${userFromDB['LAST_NAME']}';
+          email = userFromDB['EMAIL'];
+          phone = userFromDB['PHONE'];
+        });
+      }
     }
+  }
+
+  Future<bool> checkConnection() async {
+    var connectivityResult = await (Connectivity().checkConnectivity());
+    if (connectivityResult == ConnectivityResult.mobile) {
+      return true;
+    } else if (connectivityResult == ConnectivityResult.wifi) {
+      return true;
+    }
+    return false;
   }
 
   @override

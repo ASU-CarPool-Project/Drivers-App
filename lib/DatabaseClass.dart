@@ -13,8 +13,8 @@ class LocalDatabase {
     }
   }
 
-  int dbVersion = 1;
-  String dbName = 'asucarpool_driver.db';
+  int dbVersion = 2;
+  String dbName = 'asucarpool_driver_v2.db';
 
   creating() async {
     String databasepath = await getDatabasesPath();
@@ -23,7 +23,6 @@ class LocalDatabase {
         await openDatabase(mypath, version: dbVersion, onCreate: (db, version) {
       db.execute('''CREATE TABLE IF NOT EXISTS 'USERS'(
       'ID' INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
-      'IMAGE_URL' TEXT,
       'FIRST_NAME' TEXT NOT NULL,
       'LAST_NAME' TEXT NOT NULL,
       'EMAIL' TEXT NOT NULL,
