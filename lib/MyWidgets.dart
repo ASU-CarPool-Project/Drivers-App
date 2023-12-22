@@ -1,14 +1,16 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 /// My Colors
-Color? colorsPrimary = Color.fromRGBO(70, 54, 252, 1);
-Color? colorsTrips1 = Color.fromRGBO(81, 112, 253, 1);
-Color? colorsTrips2 = Color.fromRGBO(96, 171, 251, 1);
-Color? colorsCards = Color.fromRGBO(174, 225, 252, 1);
+Color? colorsPrimary = const Color.fromRGBO(70, 54, 252, 1);
+Color? colorsTrips1 = const Color.fromRGBO(81, 112, 253, 1);
+Color? colorsTrips2 = const Color.fromRGBO(96, 171, 251, 1);
+Color? colorsCards = const Color.fromRGBO(174, 225, 252, 1);
+Color? colorsAccepted = Colors.green;
+Color? colorsInservice = Colors.orange;
+Color? colorsDeclined = Colors.red;
+Color? colorsComplain = Colors.deepOrange;
 
 /// Text Widgets
 Widget textButtons(String text) {
@@ -24,7 +26,11 @@ Widget textButtons(String text) {
 Widget textPageTitle(String text) {
   return Text(
     text,
-    style: const TextStyle(color: Colors.white),
+    style: const TextStyle(
+      fontSize: 18,
+      fontWeight: FontWeight.bold,
+      color: Colors.white,
+    ),
   );
 }
 
@@ -95,8 +101,8 @@ Future<bool?> toastMsg(String message) {
 }
 
 /// Trip Cards
-Widget tripCard(
-  var currTrip,
+Widget tripCardWithMethod(
+  String? direction,
   String? route,
   String? district,
   String? time,
@@ -106,6 +112,7 @@ Widget tripCard(
   String? driver,
   String? phone,
   String? fees,
+  VoidCallback onDeletePressed,
 ) {
   return Card(
     color: colorsTrips1,
@@ -162,18 +169,7 @@ Widget tripCard(
               backgroundColor:
                   MaterialStateProperty.all<Color>(Colors.redAccent),
             ),
-            onPressed: () {
-              DatabaseReference tripToDeleteReference = FirebaseDatabase
-                  .instance
-                  .ref()
-                  .child('FromCollege')
-                  .child(currTrip.key!);
-              tripToDeleteReference.remove().then((_) {
-                print("Trip deleted successfully");
-              }).catchError((error) {
-                print("Failed to delete trip: $error");
-              });
-            },
+            onPressed: onDeletePressed,
             child: textButtons("Delete"),
           ),
         )
@@ -182,7 +178,7 @@ Widget tripCard(
   );
 }
 
-Widget tripCardTrack(
+Widget tripCardWithoutMethod(
   String? route,
   String? district,
   String? time,

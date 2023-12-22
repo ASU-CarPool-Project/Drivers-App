@@ -102,28 +102,27 @@ class _homeState extends State<home> {
                   ),
                   onTap: () {
                     Navigator.of(context).push(
-                      MaterialPageRoute(builder: (context) => profile()),
+                      MaterialPageRoute(builder: (context) => const profile()),
                     );
                   },
                 ),
-                const Divider(),
                 ListTile(
                   // tileColor: Theme.of(context).colorScheme.secondary,
-                  leading: Icon(Icons.face, color: colorsPrimary),
+                  leading: Icon(Icons.comment_rounded, color: colorsPrimary),
                   title: Text(
                     "Complains",
                     style: TextStyle(color: colorsPrimary),
                   ),
                   onTap: () {
                     Navigator.of(context).push(
-                      MaterialPageRoute(builder: (context) => complains()),
+                      MaterialPageRoute(
+                          builder: (context) => const complains()),
                     );
                   },
                 ),
-                const Divider(),
                 ListTile(
                   // tileColor: Theme.of(context).colorScheme.secondary,
-                  leading: Icon(Icons.question_mark, color: colorsPrimary),
+                  leading: Icon(Icons.info, color: colorsPrimary),
                   title: Text(
                     "About",
                     style: TextStyle(color: colorsPrimary),
@@ -137,7 +136,7 @@ class _homeState extends State<home> {
                 const Divider(),
                 ListTile(
                   // tileColor: Theme.of(context).colorScheme.secondary,
-                  leading: Icon(Icons.list_alt_rounded, color: colorsPrimary),
+                  leading: Icon(Icons.backspace, color: colorsPrimary),
                   title: Text(
                     "Sign Out",
                     style: TextStyle(color: colorsPrimary),
@@ -203,34 +202,56 @@ class _homeState extends State<home> {
                                     );
                                   },
                                   child: Card(
-                                    color: Colors.lightGreen,
+                                    color: colorsAccepted,
                                     child: Padding(
                                       padding: const EdgeInsets.all(10.0),
-                                      child: Row(
+                                      child: Column(
                                         children: [
-                                          const Icon(
-                                            Icons.pin_drop_sharp,
-                                            color: Colors.white,
-                                          ),
-                                          const SizedBox(width: 5),
-                                          Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
+                                          Row(
                                             children: [
+                                              const Icon(Icons.directions,
+                                                  color: Colors.white),
+                                              const SizedBox(width: 10),
                                               textPageTitle(
-                                                  "Route: ${tripList[index].value["route"]}"),
+                                                  "${tripList[index].value["direction"]} - ${tripList[index].value["gate"]}")
+                                            ],
+                                          ),
+                                          Row(
+                                            children: [
+                                              const Icon(Icons.pin_drop_sharp,
+                                                  color: Colors.white),
+                                              const SizedBox(width: 10),
+                                              textPageTitle(
+                                                  "District: ${tripList[index].value["route"]}"),
+                                            ],
+                                          ),
+                                          Row(
+                                            children: [
+                                              const Icon(Icons.access_time,
+                                                  color: Colors.white),
+                                              const SizedBox(width: 10),
                                               textPageTitle(
                                                   "${tripList[index].value["date"]} / ${tripList[index].value["time"]}"),
+                                            ],
+                                          ),
+                                          Row(
+                                            children: [
+                                              const Icon(Icons.face,
+                                                  color: Colors.white),
+                                              const SizedBox(width: 10),
                                               textPageTitle(
                                                   "Client: ${tripList[index].value["client"]}"),
+                                            ],
+                                          ),
+                                          Row(
+                                            children: [
+                                              const Icon(
+                                                  Icons.star_outline_sharp,
+                                                  color: Colors.white),
+                                              const SizedBox(width: 10),
                                               textPageTitle(
                                                   "Status: ${tripList[index].value["reqStatus"]}"),
                                             ],
-                                          ),
-                                          const Spacer(),
-                                          IconButton(
-                                            icon: const Icon(Icons.check),
-                                            onPressed: () {},
                                           ),
                                         ],
                                       ),
@@ -241,9 +262,9 @@ class _homeState extends State<home> {
                             },
                           );
                         } else {
-                          print("Errooooooooooor: ${snapshot.error}");
+                          print("---------> Error: ${snapshot.error}");
                           return Card(
-                            color: colorsCards,
+                            color: colorsAccepted,
                             child: ListTile(
                               tileColor: Colors.transparent,
                               leading: const Icon(
@@ -300,34 +321,56 @@ class _homeState extends State<home> {
                                     );
                                   },
                                   child: Card(
-                                    color: Colors.deepOrangeAccent,
+                                    color: colorsInservice,
                                     child: Padding(
                                       padding: const EdgeInsets.all(10.0),
-                                      child: Row(
+                                      child: Column(
                                         children: [
-                                          const Icon(
-                                            Icons.pin_drop_sharp,
-                                            color: Colors.white,
-                                          ),
-                                          const SizedBox(width: 5),
-                                          Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
+                                          Row(
                                             children: [
+                                              const Icon(Icons.directions,
+                                                  color: Colors.white),
+                                              const SizedBox(width: 10),
                                               textPageTitle(
-                                                  "Route: ${tripList[index].value["route"]}"),
+                                                  "${tripList[index].value["direction"]} - ${tripList[index].value["gate"]}")
+                                            ],
+                                          ),
+                                          Row(
+                                            children: [
+                                              const Icon(Icons.pin_drop_sharp,
+                                                  color: Colors.white),
+                                              const SizedBox(width: 10),
+                                              textPageTitle(
+                                                  "District: ${tripList[index].value["route"]}"),
+                                            ],
+                                          ),
+                                          Row(
+                                            children: [
+                                              const Icon(Icons.access_time,
+                                                  color: Colors.white),
+                                              const SizedBox(width: 10),
                                               textPageTitle(
                                                   "${tripList[index].value["date"]} / ${tripList[index].value["time"]}"),
+                                            ],
+                                          ),
+                                          Row(
+                                            children: [
+                                              const Icon(Icons.face,
+                                                  color: Colors.white),
+                                              const SizedBox(width: 10),
                                               textPageTitle(
                                                   "Client: ${tripList[index].value["client"]}"),
+                                            ],
+                                          ),
+                                          Row(
+                                            children: [
+                                              const Icon(
+                                                  Icons.star_outline_sharp,
+                                                  color: Colors.white),
+                                              const SizedBox(width: 10),
                                               textPageTitle(
                                                   "Status: ${tripList[index].value["reqStatus"]}"),
                                             ],
-                                          ),
-                                          const Spacer(),
-                                          IconButton(
-                                            icon: const Icon(Icons.check),
-                                            onPressed: () {},
                                           ),
                                         ],
                                       ),
@@ -338,9 +381,9 @@ class _homeState extends State<home> {
                             },
                           );
                         } else {
-                          print("Errooooooooooor: ${snapshot.error}");
+                          print("---------> Error: ${snapshot.error}");
                           return Card(
-                            color: colorsCards,
+                            color: colorsInservice,
                             child: ListTile(
                               tileColor: Colors.transparent,
                               leading: const Icon(
@@ -418,7 +461,7 @@ class _homeState extends State<home> {
                                     style: TextStyle(color: Colors.white),
                                   ),
                                   trailing: const Icon(
-                                    Icons.add_task,
+                                    Icons.checklist_rtl_rounded,
                                     color: Colors.white,
                                   ),
                                 ),

@@ -1,4 +1,4 @@
-import 'package:asu_carpool_driver/DatabaseClass.dart';
+import 'package:asu_carpool_driver/LocalDatabse.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -31,10 +31,25 @@ class _SignUpState extends State<SignUp> {
   bool _isObscure = true;
 
   double boxHeight = 30.0;
+  // static final RegExp _emailRegExp =
+  //     RegExp(r"^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$");
+
+  // For ASU emails that ends with @eng.asu.edu.eg us the below reg
   static final RegExp _emailRegExp =
-      RegExp(r"^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$");
+      RegExp(r"^[a-zA-Z0-9._-]+@eng\.asu\.edu\.eg$");
 
   /////////////////////////////////////////////////////////////////////////////
+  // final LocalDatabase db = LocalDatabase();
+
+  // Future<void> writingData() async {
+  //   // final userData = await fetchUserProfile();
+  //   await db.write('''INSERT INTO 'USERS'
+  //       ('FIRST_NAME','LAST_NAME','EMAIL','PHONE') VALUES
+  //       ('${_controllerFirstName.text}',
+  //       '${_controllerLastName.text}',
+  //       '${_controllerEmail.text}',
+  //       '${_controllerPhone.text}') ''');
+  // }
 
   Future<void> _register() async {
     if (_formKey.currentState!.validate()) {
@@ -60,6 +75,8 @@ class _SignUpState extends State<SignUp> {
           'phone': _controllerPhone.text,
         });
 
+        // writingData();
+
         // Reset the form after successful signup
         _formKey.currentState!.reset();
         // If sign-up is successful, navigate to home
@@ -82,7 +99,7 @@ class _SignUpState extends State<SignUp> {
       appBar: AppBar(
         backgroundColor: colorsPrimary,
         leading: iconBack(context),
-        title: textPageTitle("ASU CAR POOL - Driver"),
+        title: textPageTitle("Sign Up"),
         centerTitle: true,
       ),
       body: Container(
@@ -92,16 +109,6 @@ class _SignUpState extends State<SignUp> {
           child: Center(
             child: ListView(
               children: [
-                Center(
-                  child: Text(
-                    "Sign up",
-                    style: TextStyle(
-                      fontSize: 34,
-                      fontWeight: FontWeight.bold,
-                      color: colorsPrimary,
-                    ),
-                  ),
-                ),
                 Padding(
                     padding: const EdgeInsets.all(20),
                     child: Form(
@@ -113,7 +120,7 @@ class _SignUpState extends State<SignUp> {
                               filled: true,
                               fillColor: Colors.white70,
                               hintText: "First Name",
-                              icon: Icon(Icons.face_2),
+                              icon: Icon(Icons.tag_faces),
                             ),
                             controller: _controllerFirstName,
                             validator: (value) {
@@ -132,7 +139,7 @@ class _SignUpState extends State<SignUp> {
                               filled: true,
                               fillColor: Colors.white70,
                               hintText: "Last Name",
-                              icon: Icon(Icons.face),
+                              icon: Icon(Icons.tag_faces_rounded),
                             ),
                             controller: _controllerLastName,
                             validator: (value) {
@@ -225,7 +232,7 @@ class _SignUpState extends State<SignUp> {
                               filled: true,
                               fillColor: Colors.white70,
                               hintText: "Confirm Password",
-                              icon: const Icon(Icons.lock_outline_rounded),
+                              icon: const Icon(Icons.lock_outlined),
                               suffixIcon: IconButton(
                                 icon: Icon(
                                   _isObscure

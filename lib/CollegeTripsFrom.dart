@@ -24,18 +24,32 @@ class FromCollegeTrips extends StatelessWidget {
           return ListView.builder(
             itemCount: tripList.length,
             itemBuilder: (context, index) {
-              return tripCard(
-                tripList[index].value,
-                "${tripList[index].value["gate"]} - ${tripList[index].value["direction"]}",
-                "${tripList[index].value["route"]}",
-                "${tripList[index].value["time"]}",
-                "${tripList[index].value["date"]}",
-                "${tripList[index].value["car"]}",
-                "${tripList[index].value["capacity"]}",
-                "${tripList[index].value["driver"]}",
-                "${tripList[index].value["phone"]}",
-                "${tripList[index].value["fee"]}",
-              );
+              return tripCardWithMethod(
+                  "${tripList[index].value["direction"]}",
+                  "${tripList[index].value["gate"]} - ${tripList[index].value["direction"]}",
+                  "${tripList[index].value["route"]}",
+                  "${tripList[index].value["time"]}",
+                  "${tripList[index].value["date"]}",
+                  "${tripList[index].value["car"]}",
+                  "${tripList[index].value["capacity"]}",
+                  "${tripList[index].value["driver"]}",
+                  "${tripList[index].value["phone"]}",
+                  "${tripList[index].value["fee"]}", () {
+                DatabaseReference tripToDeleteReference = FirebaseDatabase
+                    .instance
+                    .ref()
+                    .child(
+                        'FromCollege') // Remove single quotes around direction
+                    .child(tripList[index]
+                        .key!
+                        .toString()); // Remove single quotes around tripKey
+                tripToDeleteReference.remove().then((_) {
+                  print("Trip deleted successfully");
+                  // Call setState here if needed
+                }).catchError((error) {
+                  print("Failed to delete trip: $error");
+                });
+              });
             },
           );
         } else {

@@ -135,10 +135,8 @@ class _AddRideState extends State<AddRide> {
                         SizedBox(height: boxHeight),
                         TextField(
                           controller: dateinput,
-                          //editing controller of this TextField
                           decoration: const InputDecoration(
                               icon: Icon(Icons.calendar_today),
-                              //icon of text field
                               labelText: "Enter Date" //label text of field
                               ),
                           readOnly: true,
@@ -152,17 +150,12 @@ class _AddRideState extends State<AddRide> {
                                 lastDate: DateTime(2101));
 
                             if (pickedDate != null) {
-                              print(
-                                  pickedDate); //pickedDate output format => 2021-03-10 00:00:00.000
+                              print(pickedDate);
                               String formattedDate =
                                   DateFormat('yyyy-MM-dd').format(pickedDate);
-                              print(
-                                  formattedDate); //formatted date output using intl package =>  2021-03-16
-                              //you can implement different kind of Date Format here according to your requirement
-
+                              print(formattedDate);
                               setState(() {
-                                dateinput.text =
-                                    formattedDate; //set output date to TextField value.
+                                dateinput.text = formattedDate;
                               });
                             } else {
                               print("Date is not selected");
@@ -175,12 +168,12 @@ class _AddRideState extends State<AddRide> {
                             filled: true,
                             fillColor: Colors.white70,
                             hintText: "Select Time",
-                            icon: Icon(Icons.door_sliding),
+                            icon: Icon(Icons.timelapse),
                           ),
                           value: _selectedTime,
                           onChanged: (String? value) {
                             setState(() {
-                              _selectedGate = value;
+                              _selectedTime = value;
                             });
                           },
                           items: [
@@ -287,6 +280,8 @@ class _AddRideState extends State<AddRide> {
                         _controllerCar.clear();
                         _controllerCapacity.clear();
                         _controllerFee.clear();
+                        print("Trip Added Successfully");
+                        Navigator.of(context).pop();
                       } catch (e) {
                         print("Error adding trip to Firebase: $e");
                       }

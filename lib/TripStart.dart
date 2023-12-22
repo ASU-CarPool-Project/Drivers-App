@@ -31,7 +31,7 @@ class _TripStartState extends State<TripStart> {
                   child: Padding(
                     padding: const EdgeInsets.all(20),
                     child: Center(
-                      child: tripCardTrack(
+                      child: tripCardWithoutMethod(
                         "${widget.tripData["direction"]} - ${widget.tripData["gate"]}",
                         "${widget.tripData["route"]}",
                         "${widget.tripData["time"]}",
@@ -46,6 +46,10 @@ class _TripStartState extends State<TripStart> {
                   ),
                 ),
               ),
+            ),
+            const Padding(
+              padding: EdgeInsets.all(5),
+              child: Text("Don't Start the trip until the client has entered"),
             ),
             Padding(
               padding: const EdgeInsets.all(20),

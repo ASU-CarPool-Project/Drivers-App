@@ -1,4 +1,4 @@
-import 'package:asu_carpool_driver/DatabaseClass.dart';
+import 'package:asu_carpool_driver/LocalDatabse.dart';
 import 'package:flutter/material.dart';
 import 'package:connectivity/connectivity.dart';
 import 'MyWidgets.dart';
@@ -18,19 +18,17 @@ class _profileState extends State<profile> {
   String? email;
   String? phone;
 
-  final LocalDatabase db = LocalDatabase();
-
   @override
   void initState() {
     _getUserInfo();
     super.initState();
   }
 
+  final LocalDatabase db = LocalDatabase();
   Future<void> writingData() async {
-    // Map myProfile = _firestore.fetchUserProfile() as Map;
     final userData = await fetchUserProfile();
-    await db.write('''INSERT INTO 'USERS' 
-        ('FIRST_NAME','LAST_NAME','EMAIL','PHONE') VALUES 
+    await db.write('''INSERT INTO 'USERS'
+        ('FIRST_NAME','LAST_NAME','EMAIL','PHONE') VALUES
         ('${_userData!['firstName']}','${_userData!['lastName']}','${_userData!['email']}','${_userData!['phone']}') ''');
   }
 

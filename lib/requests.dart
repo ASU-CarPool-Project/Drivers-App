@@ -79,7 +79,7 @@ class _requestsState extends State<requests> {
                                 ),
                                 const Spacer(),
                                 IconButton(
-                                  icon: const Icon(Icons.check),
+                                  icon: const Icon(Icons.add_task),
                                   onPressed: () {
                                     _showAcceptDeclineDialog(
                                       tripList[index],
@@ -99,7 +99,7 @@ class _requestsState extends State<requests> {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        textLargeTitle("Searching for trips..."),
+                        textLargeTitle("Searching for requests..."),
                         const CircularProgressIndicator(),
                       ],
                     ),

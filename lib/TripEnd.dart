@@ -31,7 +31,7 @@ class _TripEndState extends State<TripEnd> {
                   child: Padding(
                     padding: const EdgeInsets.all(20),
                     child: Center(
-                      child: tripCardTrack(
+                      child: tripCardWithoutMethod(
                         "${widget.tripData["direction"]} - ${widget.tripData["gate"]}",
                         "${widget.tripData["route"]}",
                         "${widget.tripData["time"]}",
@@ -75,7 +75,7 @@ class _TripEndState extends State<TripEnd> {
                     builder: (BuildContext context) {
                       return AlertDialog(
                         title: const Text("Waiting for Payment"),
-                        content: Text("Did you receive your payment?"),
+                        content: const Text("Did you receive your payment?"),
                         actions: [
                           ElevatedButton(
                             style: ButtonStyle(
@@ -120,15 +120,15 @@ class _TripEndState extends State<TripEnd> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text("Success"),
-          content: Text("The trip was successful!"),
+          title: const Text("Success"),
+          content: const Text("The trip was successful!"),
           actions: [
             ElevatedButton(
               onPressed: () {
                 Navigator.of(context).pop(); // Close the success dialog
                 Navigator.of(context).pop(); // Close the original dialog
               },
-              child: Text("OK"),
+              child: const Text("OK"),
             ),
           ],
         );
@@ -145,21 +145,22 @@ class _TripEndState extends State<TripEnd> {
         return StatefulBuilder(
           builder: (BuildContext context, StateSetter setState) {
             return AlertDialog(
-              title: Text("Report Issues"),
+              title: const Text("Report Issues"),
               content: TextField(
                 onChanged: (text) {
                   setState(() {
                     issuesText = text;
                   });
                 },
-                decoration: InputDecoration(labelText: "Describe the issues"),
+                decoration:
+                    const InputDecoration(labelText: "Describe the issues"),
               ),
               actions: [
                 ElevatedButton(
                   onPressed: () {
                     Navigator.of(context).pop(); // Close the issues dialog
                   },
-                  child: Text("Cancel"),
+                  child: const Text("Cancel"),
                 ),
                 ElevatedButton(
                   onPressed: () {
@@ -169,7 +170,7 @@ class _TripEndState extends State<TripEnd> {
                     Navigator.of(context).pop(); // Close the issues dialog
                     Navigator.of(context).pop(); // Close the original dialog
                   },
-                  child: Text("Send"),
+                  child: const Text("Send"),
                 ),
               ],
             );
