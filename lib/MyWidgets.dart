@@ -5,10 +5,10 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 /// My Colors
-Color? colorsPrimary = Colors.deepOrange[500];
-Color? colorsToCollege = Colors.deepOrangeAccent[100];
-Color? colorsFromCollege = Colors.deepOrangeAccent[100];
-Color? colorsCards = Colors.deepOrangeAccent[100];
+Color? colorsPrimary = Color.fromRGBO(70, 54, 252, 1);
+Color? colorsTrips1 = Color.fromRGBO(81, 112, 253, 1);
+Color? colorsTrips2 = Color.fromRGBO(96, 171, 251, 1);
+Color? colorsCards = Color.fromRGBO(174, 225, 252, 1);
 
 /// Text Widgets
 Widget textButtons(String text) {
@@ -108,7 +108,7 @@ Widget tripCard(
   String? fees,
 ) {
   return Card(
-    color: colorsToCollege,
+    color: colorsTrips1,
     child: Padding(
       padding: const EdgeInsets.all(8.0),
       child: Column(children: [
@@ -194,7 +194,7 @@ Widget tripCardTrack(
   String? fees,
 ) {
   return Card(
-    color: colorsToCollege,
+    color: colorsTrips1,
     child: Padding(
       padding: const EdgeInsets.all(8.0),
       child: Column(children: [
@@ -245,4 +245,3 @@ Widget tripCardTrack(
     ),
   );
 }
-

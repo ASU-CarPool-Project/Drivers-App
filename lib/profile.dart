@@ -26,6 +26,14 @@ class _profileState extends State<profile> {
     super.initState();
   }
 
+  Future<void> writingData() async {
+    // Map myProfile = _firestore.fetchUserProfile() as Map;
+    final userData = await fetchUserProfile();
+    await db.write('''INSERT INTO 'USERS' 
+        ('FIRST_NAME','LAST_NAME','EMAIL','PHONE') VALUES 
+        ('${_userData!['firstName']}','${_userData!['lastName']}','${_userData!['email']}','${_userData!['phone']}') ''');
+  }
+
   Future<void> _getUserInfo() async {
     final isConnected = await checkConnection();
 
@@ -40,18 +48,21 @@ class _profileState extends State<profile> {
         email = _userData!['email'];
         phone = _userData!['phone'];
       });
+      writingData();
+      print("-------------------------> $connection, $name, $email, $phone");
     } else {
       // Fetch user profile data from local database
       final response = await db.reading('''SELECT * FROM 'USERS' LIMIT 1''');
       if (response.isNotEmpty) {
-        final userFromDB = response.first;
         setState(() {
+          final userFromDB = response.first;
           connection = "From Local Database";
           name = '${userFromDB['FIRST_NAME']} ${userFromDB['LAST_NAME']}';
           email = userFromDB['EMAIL'];
           phone = userFromDB['PHONE'];
         });
       }
+      print("-------------------------> $connection, $name, $email, $phone");
     }
   }
 
