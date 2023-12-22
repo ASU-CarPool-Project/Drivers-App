@@ -22,11 +22,9 @@ class _AddRideState extends State<AddRide> {
   final TextEditingController _controllerCar = TextEditingController();
   final TextEditingController _controllerCapacity = TextEditingController();
   final TextEditingController _controllerFee = TextEditingController();
-  final TextEditingController _controllerTime = TextEditingController();
   TextEditingController dateinput = TextEditingController();
 
-  // DateTime? _selectedDate;
-  TimeOfDay? _selectedTime;
+  String? _selectedTime;
   String? _selectedGate;
   double boxHeight = 30.0;
 
@@ -172,30 +170,31 @@ class _AddRideState extends State<AddRide> {
                           },
                         ),
                         SizedBox(height: boxHeight),
-                        TextFormField(
-                          controller: _controllerTime,
+                        DropdownButtonFormField<String>(
                           decoration: const InputDecoration(
-                            icon: Icon(Icons.alarm),
                             filled: true,
                             fillColor: Colors.white70,
-                            hintText: "Time",
+                            hintText: "Select Time",
+                            icon: Icon(Icons.door_sliding),
                           ),
-                          onTap: () async {
-                            final TimeOfDay? pickedTime = await showTimePicker(
-                              context: context,
-                              initialTime: TimeOfDay.now(),
-                            );
-                            if (pickedTime != null) {
-                              setState(() {
-                                _selectedTime = pickedTime;
-                                _controllerTime.text =
-                                    _selectedTime!.format(context);
-                              });
-                            }
+                          value: _selectedTime,
+                          onChanged: (String? value) {
+                            setState(() {
+                              _selectedGate = value;
+                            });
                           },
+                          items: [
+                            "5:30 PM",
+                            "7:30 AM",
+                          ].map<DropdownMenuItem<String>>((String value) {
+                            return DropdownMenuItem<String>(
+                              value: value,
+                              child: Text(value),
+                            );
+                          }).toList(),
                           validator: (value) {
                             if (value == null || value.isEmpty) {
-                              return ("Can't be Empty");
+                              return ("Select Time");
                             } else {
                               return null;
                             }
@@ -278,7 +277,7 @@ class _AddRideState extends State<AddRide> {
                           "phone": phone,
                           "car": _controllerCar.text,
                           "capacity": _controllerCapacity.text,
-                          "time": _controllerTime.text,
+                          "time": _selectedTime,
                           "date": dateinput.text,
                           "gate": _selectedGate,
                           "fee": _controllerFee.text,
@@ -288,7 +287,6 @@ class _AddRideState extends State<AddRide> {
                         _controllerCar.clear();
                         _controllerCapacity.clear();
                         _controllerFee.clear();
-                        _controllerTime.clear();
                       } catch (e) {
                         print("Error adding trip to Firebase: $e");
                       }

@@ -37,38 +37,40 @@ class _SignUpState extends State<SignUp> {
   /////////////////////////////////////////////////////////////////////////////
 
   Future<void> _register() async {
-    try {
-      UserCredential userCredential = await FirebaseAuth.instance
-          .createUserWithEmailAndPassword(
-              email: _controllerEmail.text.trim(),
-              password: _controllerPassword.text);
+    if (_formKey.currentState!.validate()) {
+      try {
+        UserCredential userCredential = await FirebaseAuth.instance
+            .createUserWithEmailAndPassword(
+                email: _controllerEmail.text.trim(),
+                password: _controllerPassword.text);
 
-      //// Send verification email
-      // await userCredential.user!.sendEmailVerification();
-      // print("Verification email sent to ${userCredential.user!.email}");
-      // toastMsg("Verification email sent to ${userCredential.user!.email}");
+        //// Send verification email
+        // await userCredential.user!.sendEmailVerification();
+        // print("Verification email sent to ${userCredential.user!.email}");
+        // toastMsg("Verification email sent to ${userCredential.user!.email}");
 
-      // Store additional user data in Firestore
-      await FirebaseFirestore.instance
-          .collection('users_driver')
-          .doc(userCredential.user!.uid)
-          .set({
-        'firstName': _controllerFirstName.text,
-        'lastName': _controllerLastName.text,
-        'email': _controllerEmail.text,
-        'phone': _controllerPhone.text,
-      });
+        // Store additional user data in Firestore
+        await FirebaseFirestore.instance
+            .collection('users_driver')
+            .doc(userCredential.user!.uid)
+            .set({
+          'firstName': _controllerFirstName.text,
+          'lastName': _controllerLastName.text,
+          'email': _controllerEmail.text,
+          'phone': _controllerPhone.text,
+        });
 
-      // Reset the form after successful signup
-      _formKey.currentState!.reset();
-      // If sign-up is successful, navigate to home
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => const home()),
-      );
-    } on FirebaseAuthException catch (e) {
-      print("Failed to sign up: $e");
-      toastMsg("Sign-up Error: $e");
+        // Reset the form after successful signup
+        _formKey.currentState!.reset();
+        // If sign-up is successful, navigate to home
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => const home()),
+        );
+      } on FirebaseAuthException catch (e) {
+        print("Failed to sign up: $e");
+        toastMsg("Sign-up Error: $e");
+      }
     }
   }
 
