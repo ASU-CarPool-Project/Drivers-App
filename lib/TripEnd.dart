@@ -60,12 +60,12 @@ class _TripEndState extends State<TripEnd> {
                 ),
                 child: textButtons("End Trip"),
                 onPressed: () async {
-                  // DatabaseReference databaseReference =
-                  //     FirebaseDatabase.instance.ref();
-                  // await databaseReference
-                  //     .child("Requests")
-                  //     .child(widget.tripKey)
-                  //     .update({"reqStatus": "ended"});
+                  DatabaseReference databaseReference =
+                      FirebaseDatabase.instance.ref();
+                  await databaseReference
+                      .child("Requests")
+                      .child(widget.tripKey)
+                      .update({"reqStatus": "ended"});
 
                   // Show the custom dialog
                   showDialog(

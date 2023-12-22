@@ -13,6 +13,7 @@ import 'SignIn.dart';
 import 'about.dart';
 import 'auth.dart';
 import 'TripStart.dart';
+import 'TripsHistory.dart';
 
 String username = "";
 String phone = "";
@@ -103,6 +104,20 @@ class _homeState extends State<home> {
                   onTap: () {
                     Navigator.of(context).push(
                       MaterialPageRoute(builder: (context) => const profile()),
+                    );
+                  },
+                ),
+                ListTile(
+                  // tileColor: Theme.of(context).colorScheme.secondary,
+                  leading: Icon(Icons.receipt, color: colorsPrimary),
+                  title: Text(
+                    "Trips History",
+                    style: TextStyle(color: colorsPrimary),
+                  ),
+                  onTap: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                          builder: (context) => const TripsHistory()),
                     );
                   },
                 ),
