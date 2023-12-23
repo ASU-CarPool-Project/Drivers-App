@@ -1,6 +1,6 @@
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
-import 'MyWidgets.dart';
+import '../Model/MyWidgets.dart';
 
 class TripEnd extends StatefulWidget {
   final Map<String, dynamic> tripData;

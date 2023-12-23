@@ -1,6 +1,6 @@
+import 'package:asu_carpool_driver/Model/MyWidgets.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
-import 'MyWidgets.dart';
 
 class TripStart extends StatefulWidget {
   final Map<String, dynamic> tripData;

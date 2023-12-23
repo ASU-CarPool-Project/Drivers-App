@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'MyWidgets.dart';
+import '../Model/MyWidgets.dart';
 
 class about extends StatefulWidget {
   const about({Key? key}) : super(key: key);
@@ -36,13 +36,13 @@ class _aboutState extends State<about> {
                       child: Image.asset("assets/logos/flutter.png",
                           height: 150, width: 150),
                     ),
-                     Padding(
+                    Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Text(
                           "Welcome to my Car pool app!",
                           style: TextStyle(fontSize: 20, color: colorsPrimary),
                         )),
-                     Padding(
+                    Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Text(
                           "This app was built as a final project\nfor my flutter course",

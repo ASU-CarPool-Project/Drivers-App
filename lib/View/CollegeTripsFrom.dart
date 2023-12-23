@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'home.dart';
-import 'MyWidgets.dart';
+import '../Model/MyWidgets.dart';
 
 class FromCollegeTrips extends StatelessWidget {
   const FromCollegeTrips({super.key});

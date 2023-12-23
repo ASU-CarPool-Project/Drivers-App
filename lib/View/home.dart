@@ -1,9 +1,10 @@
-import 'package:asu_carpool_driver/complains.dart';
+import 'package:asu_carpool_driver/View/TripStart.dart';
+import 'package:asu_carpool_driver/View/complains.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'MyWidgets.dart';
+import '../Model/MyWidgets.dart';
 import 'TripEnd.dart';
 import 'TripsPage.dart';
 import 'AddRide.dart';
@@ -11,8 +12,7 @@ import 'profile.dart';
 import 'requests.dart';
 import 'SignIn.dart';
 import 'about.dart';
-import 'auth.dart';
-import 'TripStart.dart';
+import '../Model/auth.dart';
 import 'TripsHistory.dart';
 
 String username = "";

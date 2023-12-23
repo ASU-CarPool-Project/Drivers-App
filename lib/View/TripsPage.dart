@@ -1,7 +1,7 @@
-import 'package:asu_carpool_driver/CollegeTripsFrom.dart';
-import 'package:asu_carpool_driver/CollegeTripsTo.dart';
+import 'package:asu_carpool_driver/View/CollegeTripsFrom.dart';
+import 'package:asu_carpool_driver/View/CollegeTripsTo.dart';
 import 'package:flutter/material.dart';
-import 'MyWidgets.dart';
+import '../Model/MyWidgets.dart';
 
 class TripsPage extends StatelessWidget {
   const TripsPage({super.key});

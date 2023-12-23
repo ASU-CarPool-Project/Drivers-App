@@ -1,8 +1,8 @@
-import 'package:asu_carpool_driver/LocalDatabse.dart';
+import 'package:asu_carpool_driver/Controller/LocalDatabse.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'MyWidgets.dart';
+import '../Model/MyWidgets.dart';
 import 'home.dart';
 
 class SignUp extends StatefulWidget {

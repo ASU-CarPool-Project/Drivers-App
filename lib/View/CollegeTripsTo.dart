@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'home.dart';
-import 'MyWidgets.dart';
+import '../Model/MyWidgets.dart';
 
 class ToCollegeTrips extends StatelessWidget {
   const ToCollegeTrips({super.key});
@@ -38,13 +38,10 @@ class ToCollegeTrips extends StatelessWidget {
                 DatabaseReference tripToDeleteReference = FirebaseDatabase
                     .instance
                     .ref()
-                    .child('ToCollege') // Remove single quotes around direction
-                    .child(tripList[index]
-                        .key!
-                        .toString()); // Remove single quotes around tripKey
+                    .child('ToCollege')
+                    .child(tripList[index].key!.toString());
                 tripToDeleteReference.remove().then((_) {
                   print("Trip deleted successfully");
-                  // Call setState here if needed
                 }).catchError((error) {
                   print("Failed to delete trip: $error");
                 });
