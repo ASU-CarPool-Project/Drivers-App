@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
-import '../Controller/firebase_options.dart';
-import 'home.dart';
-import 'SignIn.dart';
+import 'Controller/firebase_options.dart';
+import 'View/home.dart';
+import 'View/SignIn.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
-    name: 'asu-carpool-driver',
+    // name: 'asu-carpool-driver',
     options: DefaultFirebaseOptions.currentPlatform,
   );
 
