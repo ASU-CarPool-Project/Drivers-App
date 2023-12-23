@@ -56,7 +56,7 @@ class _requestsState extends State<requests> {
                       return Padding(
                         padding: const EdgeInsets.all(10),
                         child: Card(
-                          color: Colors.yellow,
+                          color: colorsPrimary,
                           child: Padding(
                             padding: const EdgeInsets.all(10.0),
                             child: Row(

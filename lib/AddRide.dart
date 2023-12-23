@@ -24,7 +24,7 @@ class _AddRideState extends State<AddRide> {
   final TextEditingController _controllerFee = TextEditingController();
   TextEditingController dateinput = TextEditingController();
 
-  String? _selectedTime;
+  String? _selectedTime = "7:30 AM";
   String? _selectedGate;
   double boxHeight = 30.0;
 
@@ -66,6 +66,7 @@ class _AddRideState extends State<AddRide> {
                                   onChanged: (RouteDirection? value) {
                                     setState(() {
                                       _selectedRouteDirection = value;
+                                      _selectedTime = "7:30 AM";
                                     });
                                   },
                                 ),
@@ -78,6 +79,7 @@ class _AddRideState extends State<AddRide> {
                                   onChanged: (RouteDirection? value) {
                                     setState(() {
                                       _selectedRouteDirection = value;
+                                      _selectedTime = "5:30 PM";
                                     });
                                   },
                                 ),
@@ -163,35 +165,14 @@ class _AddRideState extends State<AddRide> {
                           },
                         ),
                         SizedBox(height: boxHeight),
-                        DropdownButtonFormField<String>(
-                          decoration: const InputDecoration(
+                        TextField(
+                          readOnly: true,
+                          decoration: InputDecoration(
                             filled: true,
                             fillColor: Colors.white70,
-                            hintText: "Select Time",
-                            icon: Icon(Icons.timelapse),
+                            hintText: _selectedTime!,
+                            icon: const Icon(Icons.timelapse),
                           ),
-                          value: _selectedTime,
-                          onChanged: (String? value) {
-                            setState(() {
-                              _selectedTime = value;
-                            });
-                          },
-                          items: [
-                            "5:30 PM",
-                            "7:30 AM",
-                          ].map<DropdownMenuItem<String>>((String value) {
-                            return DropdownMenuItem<String>(
-                              value: value,
-                              child: Text(value),
-                            );
-                          }).toList(),
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return ("Select Time");
-                            } else {
-                              return null;
-                            }
-                          },
                         ),
                         SizedBox(height: boxHeight),
                         TextFormField(
@@ -212,6 +193,7 @@ class _AddRideState extends State<AddRide> {
                         ),
                         SizedBox(height: boxHeight),
                         TextFormField(
+                          keyboardType: TextInputType.number,
                           decoration: const InputDecoration(
                             icon: Icon(Icons.event_seat),
                             filled: true,
@@ -229,6 +211,7 @@ class _AddRideState extends State<AddRide> {
                         ),
                         SizedBox(height: boxHeight),
                         TextFormField(
+                          keyboardType: TextInputType.number,
                           decoration: const InputDecoration(
                             icon: Icon(Icons.attach_money),
                             filled: true,

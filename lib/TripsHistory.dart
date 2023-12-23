@@ -31,8 +31,10 @@ class _TripsHistoryState extends State<TripsHistory> {
           padding: const EdgeInsets.all(20),
           child: Center(
             child: StreamBuilder(
-              stream:
-                  tripsReference.orderByChild("userID").equalTo(userID).onValue,
+              stream: tripsReference
+                  .orderByChild("driverID")
+                  .equalTo(userID)
+                  .onValue,
               builder: (context, AsyncSnapshot<DatabaseEvent> snapshot) {
                 if (snapshot.hasData &&
                     !snapshot.hasError &&
@@ -84,7 +86,7 @@ class _TripsHistoryState extends State<TripsHistory> {
                                     const Icon(Icons.face, color: Colors.white),
                                     const SizedBox(width: 10),
                                     textPageTitle(
-                                        "Client: ${tripList[index].value["user"]}"),
+                                        "Client: ${tripList[index].value["client"]}"),
                                   ],
                                 ),
                                 Row(
@@ -108,7 +110,7 @@ class _TripsHistoryState extends State<TripsHistory> {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        textLargeTitle("No Complains Found"),
+                        textLargeTitle("Your ended trips will appear here"),
                         // const CircularProgressIndicator(),
                       ],
                     ),
